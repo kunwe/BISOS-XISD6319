@@ -375,11 +375,20 @@ This project is developed for academic purposes as part of the XISD6319 course a
 
 
 ## App prototype 
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/83ad0ed89d8a8128ec9d49f76f4b7a5efca9857d/login.jpeg)
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Dashboard.jpeg)
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Daily%20Sales%20Report.jpeg)
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Inventory%20Valuation.jpeg)
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Low%20Stock%20Alerts.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Login.jpeg)
+
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Register.jpeg)
+
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Mart%20Information.jpeg)
+
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Alert.jpeg)
+
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Inventory.jpeg)
+
 ![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Low%20Stock%20Report.jpeg)
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Products.jpeg)
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Thresholds.jpeg)
+
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Setting.jpeg)
+
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Transactions.jpeg)
+
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Update%20Stock.jpeg)

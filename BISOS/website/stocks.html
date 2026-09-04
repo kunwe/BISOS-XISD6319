@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stock Management - BISOS">
+    <title>Stock Management | BISOS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/stocks.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header role="banner">
+        <nav class="navbar" id="main-nav" role="navigation" aria-label="Primary navigation"></nav>
+    </header>
+
+    <main role="main" aria-label="Stock Management">
+        <div class="page-header">
+            <div>
+                <h1>Stock Management</h1>
+                <p>Store: Soweto Branch &mdash; Last updated: <span id="lastUpdated">Just now</span></p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="addStockBtn">
+                    <i class="fas fa-plus" aria-hidden="true"></i> Add New Stock
+                </button>
+                <button class="btn btn-outline" id="exportBtn">
+                    <i class="fas fa-download" aria-hidden="true"></i> Export CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Alert Summary -->
+        <div class="alert-summary" id="alertSummary" role="status" aria-live="polite"></div>
+
+        <!-- Stock Table -->
+        <div class="table-wrapper">
+            <div class="table-toolbar">
+                <div class="search-bar" role="search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="search" id="searchInput" placeholder="Search products..." aria-label="Search products">
+                </div>
+                <div class="table-actions">
+                    <select id="categoryFilter" aria-label="Filter by category">
+                        <option value="">All Categories</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Bakery">Bakery</option>
+                        <option value="Pantry">Pantry</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Canned Goods">Canned Goods</option>
+                    </select>
+                    <select id="statusFilter" aria-label="Filter by status">
+                        <option value="">All Status</option>
+                        <option value="low">Low Stock</option>
+                        <option value="ok">OK</option>
+                    </select>
+                </div>
+            </div>
+
+            <table aria-label="Stock inventory table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Stock Level</th>
+                        <th scope="col">Reorder Level</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="stockTableBody" aria-live="polite">
+                    <tr>
+                        <td colspan="7" style="text-align:center;padding:2rem;color:var(--text-secondary)">
+                            <i class="fas fa-spinner fa-spin"></i> Loading stock data...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <span id="paginationInfo">Showing 1–10 of 10 items</span>
+                <div class="pagination-controls" role="navigation" aria-label="Table pagination">
+                    <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer role="contentinfo" id="main-footer"></footer>
+
+    <!-- Add/Edit Stock Modal -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Stock Item</h2>
+                <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            </div>
+
+            <form id="stockForm" novalidate>
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label for="fieldName">Product Name <span aria-hidden="true">*</span></label>
+                        <input type="text" id="fieldName" placeholder="e.g. Milk 2L" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldCategory">Category <span aria-hidden="true">*</span></label>
+                        <select id="fieldCategory" required>
+                            <option value="">Select category</option>
+                            <option value="Dairy">Dairy</option>
+                            <option value="Bakery">Bakery</option>
+                            <option value="Pantry">Pantry</option>
+                            <option value="Meat">Meat</option>
+                            <option value="Grains">Grains</option>
+                            <option value="Canned Goods">Canned Goods</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldLocation">Location Code</label>
+                        <input type="text" id="fieldLocation" placeholder="e.g. A-01">
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldQuantity">Current Quantity <span aria-hidden="true">*</span></label>
+                        <input type="number" id="fieldQuantity" min="0" placeholder="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldReorderLevel">Reorder Level <span aria-hidden="true">*</span></label>
+                        <input type="number" id="fieldReorderLevel" min="0" placeholder="0" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="modalCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save" aria-hidden="true"></i> Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../js/stocks.js"></script>
+</body>
+</html>

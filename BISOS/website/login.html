@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to BISOS - Branch Inventory and Sales Optimization System">
+    <title>Login | BISOS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-page">
+    <main class="auth-container" role="main">
+        <div class="auth-box">
+            <div class="auth-header">
+                <div class="auth-logo-icon" aria-hidden="true">B</div>
+                <h1>BISOS</h1>
+                <p class="subtitle">Informal Supermarket Management System</p>
+            </div>
+
+            <form id="loginForm" class="auth-form" novalidate>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <input type="email" id="email" name="email"
+                               placeholder="Enter your email"
+                               required autocomplete="email" aria-required="true">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock" aria-hidden="true"></i>
+                        <input type="password" id="password" name="password"
+                               placeholder="Enter your password"
+                               required autocomplete="current-password" aria-required="true">
+                        <button type="button" class="toggle-password" aria-label="Show password">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember"> Remember me
+                    </label>
+                    <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Sign In
+                </button>
+            </form>
+
+            <div class="divider"><span>OR</span></div>
+
+            <button class="btn-sso" id="googleLogin" type="button">
+                <i class="fab fa-google sso-icon-google" aria-hidden="true"></i>
+                Sign in with Google SSO
+            </button>
+
+            <button class="btn-sso" id="microsoftLogin" type="button">
+                <i class="fab fa-microsoft sso-icon-microsoft" aria-hidden="true"></i>
+                Sign in with Microsoft
+            </button>
+
+            <p class="register-link">
+                Don't have an account? <a href="register.html">Register here</a>
+            </p>
+        </div>
+
+        <aside class="demo-credentials" aria-label="Demo login credentials">
+            <p><strong>Demo Credentials</strong></p>
+            <p>Email: demo@bisos.co.za</p>
+            <p>Password: Demo@123</p>
+            <button id="demoLoginBtn" class="btn btn-outline" style="margin-top:0.75rem;width:100%;justify-content:center;color:white;border-color:rgba(255,255,255,0.5)">
+                <i class="fas fa-play" aria-hidden="true"></i> Use Demo Account
+            </button>
+        </aside>
+    </main>
+
+    <script type="module" src="../js/auth.js"></script>
+</body>
+</html>

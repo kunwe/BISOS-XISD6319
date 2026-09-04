@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BISOS - Branch Inventory and Sales Optimization System">
+    <title>BISOS - Informal Supermarket Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { display:flex; flex-direction:column; min-height:100vh; background:linear-gradient(135deg,#1A252F 0%,#2C3E50 60%,#3498DB 100%); }
+        .landing { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; text-align:center; color:white; }
+        .landing-logo { width:90px; height:90px; background:white; border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:3rem; font-weight:900; color:#2C3E50; margin:0 auto 1.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.3); }
+        .landing h1 { font-size:2.5rem; font-weight:700; margin-bottom:0.5rem; }
+        .landing .tagline { font-size:1.1rem; opacity:0.85; margin-bottom:2.5rem; max-width:500px; }
+        .landing-actions { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:3rem; }
+        .btn-landing-primary { background:white; color:#2C3E50; padding:0.85rem 2rem; border-radius:8px; font-size:1rem; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:all 0.3s; }
+        .btn-landing-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.2); }
+        .btn-landing-outline { background:transparent; color:white; border:2px solid rgba(255,255,255,0.6); padding:0.85rem 2rem; border-radius:8px; font-size:1rem; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:all 0.3s; }
+        .btn-landing-outline:hover { background:rgba(255,255,255,0.1); border-color:white; }
+        .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.5rem; max-width:900px; width:100%; }
+        .feature-card { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding:1.5rem; text-align:center; backdrop-filter:blur(10px); }
+        .feature-card i { font-size:2rem; margin-bottom:0.75rem; opacity:0.9; }
+        .feature-card h3 { font-size:1rem; margin-bottom:0.4rem; }
+        .feature-card p { font-size:0.85rem; opacity:0.75; }
+        @media(max-width:480px) { .landing h1 { font-size:1.8rem; } .landing-actions { flex-direction:column; align-items:center; } }
+    </style>
+</head>
+<body>
+    <main class="landing" role="main">
+        <div class="landing-logo" aria-hidden="true">B</div>
+        <h1>BISOS</h1>
+        <p class="tagline">Branch Inventory and Sales Optimization System &mdash; Built for informal supermarkets across South Africa</p>
+
+        <div class="landing-actions">
+            <a href="website/login.html" class="btn-landing-primary">
+                <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Sign In
+            </a>
+            <a href="website/register.html" class="btn-landing-outline">
+                <i class="fas fa-user-plus" aria-hidden="true"></i> Create Account
+            </a>
+        </div>
+
+        <div class="features" role="list" aria-label="Key features">
+            <div class="feature-card" role="listitem">
+                <i class="fas fa-boxes" aria-hidden="true"></i>
+                <h3>Stock Management</h3>
+                <p>Real-time inventory tracking across all store branches</p>
+            </div>
+            <div class="feature-card" role="listitem">
+                <i class="fas fa-bell" aria-hidden="true"></i>
+                <h3>Smart Alerts</h3>
+                <p>Automated low-stock notifications and reorder triggers</p>
+            </div>
+            <div class="feature-card" role="listitem">
+                <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                <h3>Sales Reports</h3>
+                <p>Daily, weekly and monthly sales analytics and exports</p>
+            </div>
+            <div class="feature-card" role="listitem">
+                <i class="fas fa-store" aria-hidden="true"></i>
+                <h3>Multi-Store</h3>
+                <p>Manage multiple store locations from one dashboard</p>
+            </div>
+        </div>
+    </main>
+
+    <footer style="background:rgba(0,0,0,0.3);color:rgba(255,255,255,0.7);text-align:center;padding:1rem;font-size:0.8rem">
+        &copy; 2026 BISOS &mdash; Mdaka K.T. &bull; Maungwa O. &bull; Rakosa G. &bull; Sebola R.
+    </footer>
+
+    <script>
+        // Auto-redirect if already logged in
+        if (localStorage.getItem('authToken')) {
+            window.location.href = 'website/dashboard.html';
+        }
+    </script>
+</body>
+</html>

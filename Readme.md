@@ -360,3 +360,4 @@ This project is developed for academic purposes as part of the XISD6319 course a
 
 
 ![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/839db1b70ea2f0f1d168b5d0698e5a83a99d8977/WhatsApp%20Image%202026-09-04%20at%2015.22.49.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/main/WhatsApp%20Image%202026-09-04%20at%2015.22.49.jpeg)

@@ -340,9 +340,9 @@ The system generates five key reports:
 | **Team Member** | **Email** | **Role** |
 |-----------------|-----------|----------|
 | Kun'we Tyrone Mdaka | kunwemdaka@gmail.com | Group Leader & Front-End Developer |
-| Oratile Maungwa | [Email] | Project Manager |
+| Oratile Maungwa | oratilemaungwa@gmail.com | Project Manager |
 | Gontse Rakosa | gontsekobue2@gmail.com | Analyst & Documentation Composer |
-| Richard Sebola | [Email] | Back-End Developer |
+| Richard Sebola | ernestsebola22@gmail.com | Back-End Developer |
 
 ---
 

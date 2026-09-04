@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: inventory_system
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, intl, pdo_mysql, mysqli
+        coverage: none
+
+    - name: Validate composer.json (if exists)
+      run: |
+        if [ -f "composer.json" ]; then
+          composer validate --strict
+        fi
+
+    - name: Install dependencies (if composer.json exists)
+      run: |
+        if [ -f "composer.json" ]; then
+          composer install --no-progress --no-suggest --prefer-dist
+        fi
+
+    - name: Check PHP syntax errors
+      run: |
+        find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \; | (! grep -v "No syntax errors" )
+
+    - name: Run PHP Code Sniffer (optional, if installed)
+      run: |
+        if [ -f "vendor/bin/phpcs" ]; then
+          vendor/bin/phpcs --standard=PSR12 --ignore=vendor,node_modules --extensions=php .
+        else
+          echo "phpcs not installed, skipping."
+        fi
+
+    - name: Wait for MySQL to be ready
+      run: |
+        until mysqladmin ping -h127.0.0.1 -P3306 -uroot -proot --silent; do
+          echo "Waiting for MySQL..."
+          sleep 2
+        done
+
+    - name: Test Database Connection
+      run: |
+        mysql -h127.0.0.1 -P3306 -uroot -proot -e "SHOW DATABASES;"
+
+    - name: Run database migrations (if any)
+      run: |
+        # Example: if you have a SQL schema file, import it
+        if [ -f "database/schema.sql" ]; then
+          mysql -h127.0.0.1 -P3306 -uroot -proot inventory_system < database/schema.sql
+        fi
+
+    - name: Run unit tests (if PHPUnit configured)
+      run: |
+        if [ -f "vendor/bin/phpunit" ]; then
+          vendor/bin/phpunit --configuration phpunit.xml --testdox
+        else
+          echo "PHPUnit not configured, skipping."
+        fi
+
+    - name: Security check (if composer installed)
+      run: |
+        if [ -f "vendor/bin/security-checker" ]; then
+          vendor/bin/security-checker security:check
+        fi
+
+    - name: Archive build artifacts (optional)
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-output
+        path: .

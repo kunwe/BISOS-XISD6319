@@ -391,4 +391,4 @@ This project is developed for academic purposes as part of the XISD6319 course a
 
 ![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/b1bb3829e44ea48889001bb8ed0e895867cb04bd/App%20Transactions.jpeg)
 
-![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Update%20Stock.jpeg)
+

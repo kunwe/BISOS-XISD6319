@@ -373,4 +373,13 @@ This project is developed for academic purposes as part of the XISD6319 course a
 ![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/User%20Mange.jpeg)
 ![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/View%20Stock.jpeg)
 
-![image alt]()
+
+## App prototype 
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/83ad0ed89d8a8128ec9d49f76f4b7a5efca9857d/login.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Dashboard.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Daily%20Sales%20Report.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Inventory%20Valuation.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Low%20Stock%20Alerts.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Low%20Stock%20Report.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Products.jpeg)
+![image alt](https://github.com/kunwe/BISOS-XISD6319/blob/8d096cfbe4ff616dcd59113da35ba613853b36cb/Thresholds.jpeg)

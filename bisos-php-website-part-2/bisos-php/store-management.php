@@ -1,0 +1,104 @@
+<?php
+require_once __DIR__ . '/config/config.php';
+require_login();
+
+$pageTitle  = 'Store Management';
+$activePage = 'stores';
+$extraCss   = ['css/stocks.css'];
+$inlineStyle = '
+    .stores-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:var(--spacing-lg); margin-bottom:var(--spacing-lg); }
+    .store-card { background:var(--card-bg); border-radius:var(--border-radius); box-shadow:var(--shadow); overflow:hidden; transition:transform 0.3s,box-shadow 0.3s; }
+    .store-card:hover { transform:translateY(-4px); box-shadow:0 6px 24px rgba(0,0,0,0.12); }
+    .store-card-header { padding:var(--spacing-md) var(--spacing-lg); background:var(--primary); color:white; display:flex; justify-content:space-between; align-items:center; }
+    .store-card-header h2 { font-size:1.1rem; }
+    .store-card-body { padding:var(--spacing-lg); }
+    .store-info-row { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem; font-size:0.875rem; }
+    .store-info-row i { color:var(--primary-light); width:16px; text-align:center; }
+    .store-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--spacing-sm); margin:var(--spacing-md) 0; padding:var(--spacing-md); background:var(--background); border-radius:var(--border-radius); }
+    .store-stat { text-align:center; }
+    .store-stat .stat-value { font-size:1.2rem; font-weight:700; color:var(--primary); }
+    .store-stat .stat-label { font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.04em; }
+    .store-card-footer { padding:var(--spacing-md) var(--spacing-lg); border-top:1px solid var(--background); display:flex; gap:var(--spacing-sm); }
+';
+include __DIR__ . '/includes/header.php';
+?>
+<main role="main">
+    <div class="page-header">
+        <div>
+            <h1>Store Management</h1>
+            <p>Manage all your store locations and their details</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-primary" id="addStoreBtn"><i class="fas fa-plus"></i> Add Store</button>
+        </div>
+    </div>
+
+    <div class="stores-grid">
+        <article class="store-card">
+            <div class="store-card-header">
+                <h2><i class="fas fa-store"></i> Soweto Branch</h2>
+                <span class="status-badge status-ok" style="background:rgba(255,255,255,0.2);color:white">Active</span>
+            </div>
+            <div class="store-card-body">
+                <div class="store-info-row"><i class="fas fa-map-marker-alt"></i><span>123 Soweto Street, Johannesburg, 1804</span></div>
+                <div class="store-info-row"><i class="fas fa-phone"></i><span>011-123-4567</span></div>
+                <div class="store-info-row"><i class="fas fa-envelope"></i><span>soweto@bisos.co.za</span></div>
+                <div class="store-info-row"><i class="fas fa-user-tie"></i><span>Manager: John Molefe</span></div>
+                <div class="store-stats">
+                    <div class="store-stat"><p class="stat-value">412</p><p class="stat-label">Products</p></div>
+                    <div class="store-stat"><p class="stat-value" style="color:var(--danger)">8</p><p class="stat-label">Alerts</p></div>
+                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">R4,560</p><p class="stat-label">Today</p></div>
+                </div>
+            </div>
+            <div class="store-card-footer">
+                <a href="stocks.php" class="btn btn-sm btn-primary"><i class="fas fa-boxes"></i> View Stock</a>
+                <button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+            </div>
+        </article>
+
+        <article class="store-card">
+            <div class="store-card-header" style="background:var(--success)">
+                <h2><i class="fas fa-store"></i> Sandton Branch</h2>
+                <span class="status-badge" style="background:rgba(255,255,255,0.2);color:white">Active</span>
+            </div>
+            <div class="store-card-body">
+                <div class="store-info-row"><i class="fas fa-map-marker-alt"></i><span>456 Sandton Drive, Sandton, 2196</span></div>
+                <div class="store-info-row"><i class="fas fa-phone"></i><span>011-234-5678</span></div>
+                <div class="store-info-row"><i class="fas fa-envelope"></i><span>sandton@bisos.co.za</span></div>
+                <div class="store-info-row"><i class="fas fa-user-tie"></i><span>Manager: Sarah Dlamini</span></div>
+                <div class="store-stats">
+                    <div class="store-stat"><p class="stat-value">389</p><p class="stat-label">Products</p></div>
+                    <div class="store-stat"><p class="stat-value" style="color:var(--warning)">3</p><p class="stat-label">Alerts</p></div>
+                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">R6,120</p><p class="stat-label">Today</p></div>
+                </div>
+            </div>
+            <div class="store-card-footer">
+                <a href="stocks.php" class="btn btn-sm btn-primary"><i class="fas fa-boxes"></i> View Stock</a>
+                <button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+            </div>
+        </article>
+
+        <article class="store-card">
+            <div class="store-card-header" style="background:var(--warning)">
+                <h2><i class="fas fa-store"></i> Pretoria Branch</h2>
+                <span class="status-badge" style="background:rgba(255,255,255,0.2);color:white">Active</span>
+            </div>
+            <div class="store-card-body">
+                <div class="store-info-row"><i class="fas fa-map-marker-alt"></i><span>789 Church Street, Pretoria, 0002</span></div>
+                <div class="store-info-row"><i class="fas fa-phone"></i><span>012-345-6789</span></div>
+                <div class="store-info-row"><i class="fas fa-envelope"></i><span>pretoria@bisos.co.za</span></div>
+                <div class="store-info-row"><i class="fas fa-user-tie"></i><span>Manager: David Nkosi</span></div>
+                <div class="store-stats">
+                    <div class="store-stat"><p class="stat-value">446</p><p class="stat-label">Products</p></div>
+                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">0</p><p class="stat-label">Alerts</p></div>
+                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">R3,890</p><p class="stat-label">Today</p></div>
+                </div>
+            </div>
+            <div class="store-card-footer">
+                <a href="stocks.php" class="btn btn-sm btn-primary"><i class="fas fa-boxes"></i> View Stock</a>
+                <button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+            </div>
+        </article>
+    </div>
+</main>
+<?php include __DIR__ . '/includes/footer.php'; ?>

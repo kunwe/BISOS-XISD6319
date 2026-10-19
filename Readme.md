@@ -552,6 +552,45 @@ The system provides five main types of reports:
 - Analysis of processing times
 - Total values of purchase orders
 
+  
+💻 How to Run and Use the App (Temporary Ngrok Setup)
+⚠️ CRITICAL NOTE FOR THE LECTURER: The current setup uses Ngrok as a temporary workaround. Permanent cloud hosting platforms (such as Azure SQL) are currently experiencing regional quota restrictions for student accounts, and free hosts (like ProFreeHost) are facing severe DNS delays. The backend will be migrated to a permanent, efficient hosting platform for the final Task 3 submission. Until then, please follow the steps below to run the app using the local WAMP server tunneled via Ngrok.
+
+Prerequisites:
+WAMP Server (or XAMPP) installed on your PC.
+Ngrok installed and authenticated on your PC.
+The BMB_AUTOS PHP backend and MySQL database running on WAMP.
+Step-by-Step Setup:
+Start your local server: Ensure WAMP is running and the icon is green (Put Online).
+
+Start the Ngrok Tunnel: Open a terminal (Command Prompt) where Ngrok is installed and run:
+
+ngrok http 80
+Copy the generated Forwarding URL (e.g., https://a1b2-c3d4.ngrok-free.app).
+
+(Note: Ngrok free-tier URLs change every time it restarts. If the link below is dead, you must generate a new one).
+
+⚠️ UPDATE THE URL IN THE CODE (Crucial Step): If you generated a new Ngrok link, you must update it in the Android Studio code before running:
+
+Open the file: app/src/main/java/com/example/bmbautos/LoginActivity.kt
+
+Scroll down to the bottom to the showServerDialog() function.
+
+Find this exact line:
+
+1 -> "https://YOUR-NGROK-URL-HERE.ngrok-free.app/BMB_AUTOS/api/"
+Replace https://YOUR-NGROK-URL-HERE.ngrok-free.app with your new Ngrok Forwarding URL.
+
+Important: Ensure the URL keeps the /BMB_AUTOS/api/ at the very end.
+
+Click Build -> Clean Project and Build -> Rebuild Project in Android Studio.
+
+Launch the App: Run the app on a physical device or emulator.
+
+Select the Server: On the Login screen, tap the text at the very bottom that says "Current Server". Select "Ngrok Tunnel (Physical Phone)" from the popup dialog.
+
+Log In: Use the demo credentials (thabo@bmbautos.co.za / welcome123) or register a new account.**
+
 ---
 
 ## 📅 Project Timeline
@@ -567,7 +606,48 @@ The system provides five main types of reports:
 
 ---
 
+
+
 ## 💻 Installation and Setup
+
+
+💻 How to Run and Use the App (Temporary Ngrok Setup)
+⚠️ CRITICAL NOTE FOR THE LECTURER: The current setup uses Ngrok as a temporary workaround. Permanent cloud hosting platforms (such as Azure SQL) are currently experiencing regional quota restrictions for student accounts, and free hosts (like ProFreeHost) are facing severe DNS delays. The backend will be migrated to a permanent, efficient hosting platform for the final Task 3 submission. Until then, please follow the steps below to run the app using the local WAMP server tunneled via Ngrok.
+
+Prerequisites:
+WAMP Server (or XAMPP) installed on your PC.
+Ngrok installed and authenticated on your PC.
+The BMB_AUTOS PHP backend and MySQL database running on WAMP.
+Step-by-Step Setup:
+Start your local server: Ensure WAMP is running and the icon is green (Put Online).
+
+Start the Ngrok Tunnel: Open a terminal (Command Prompt) where Ngrok is installed and run:
+
+ngrok http 80
+Copy the generated Forwarding URL (e.g., https://a1b2-c3d4.ngrok-free.app).
+
+(Note: Ngrok free-tier URLs change every time it restarts. If the link below is dead, you must generate a new one).
+
+⚠️ UPDATE THE URL IN THE CODE (Crucial Step): If you generated a new Ngrok link, you must update it in the Android Studio code before running:
+
+Open the file: app/src/main/java/com/example/bmbautos/LoginActivity.kt
+
+Scroll down to the bottom to the showServerDialog() function.
+
+Find this exact line:
+
+1 -> "https://YOUR-NGROK-URL-HERE.ngrok-free.app/BMB_AUTOS/api/"
+Replace https://YOUR-NGROK-URL-HERE.ngrok-free.app with your new Ngrok Forwarding URL.
+
+Important: Ensure the URL keeps the /BMB_AUTOS/api/ at the very end.
+
+Click Build -> Clean Project and Build -> Rebuild Project in Android Studio.
+
+Launch the App: Run the app on a physical device or emulator.
+
+Select the Server: On the Login screen, tap the text at the very bottom that says "Current Server". Select "Ngrok Tunnel (Physical Phone)" from the popup dialog.
+
+Log In: Use the demo credentials (thabo@bmbautos.co.za / welcome123) or register a new account.
 
 ### Prerequisites
 

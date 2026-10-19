@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sales Reports - BISOS">
+    <title>Sales Report | BISOS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .report-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:var(--spacing-md); margin-bottom:var(--spacing-lg); }
+        .report-card { background:var(--card-bg); padding:var(--spacing-md); border-radius:var(--border-radius); box-shadow:var(--shadow); text-align:center; }
+        .report-card .label { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary); font-weight:600; }
+        .report-card .value { font-size:1.4rem; font-weight:700; color:var(--text-primary); margin:0.3rem 0; }
+        .report-card .sub { font-size:0.75rem; color:var(--text-secondary); }
+        .tab-list { display:flex; gap:0.3rem; margin-bottom:var(--spacing-md); background:var(--background); padding:0.3rem; border-radius:var(--border-radius); width:fit-content; }
+        .tab-btn { padding:0.5rem 1.2rem; border:none; background:transparent; border-radius:6px; font-size:0.875rem; font-weight:500; cursor:pointer; transition:all 0.2s; font-family:var(--font-family); color:var(--text-secondary); }
+        .tab-btn.active { background:white; color:var(--primary); box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+        .payment-breakdown { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--spacing-sm); margin-bottom:var(--spacing-lg); }
+        .payment-card { background:var(--card-bg); padding:var(--spacing-md); border-radius:var(--border-radius); box-shadow:var(--shadow); display:flex; align-items:center; gap:var(--spacing-sm); }
+        .payment-icon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+        .payment-icon.cash { background:rgba(39,174,96,0.12); color:var(--success); }
+        .payment-icon.card { background:rgba(52,152,219,0.12); color:var(--primary-light); }
+        .payment-icon.mobile { background:rgba(243,156,18,0.12); color:var(--warning); }
+        .table-total { display:flex; justify-content:flex-end; padding:var(--spacing-md) var(--spacing-lg); border-top:2px solid var(--background); font-weight:700; font-size:1rem; gap:var(--spacing-lg); }
+    </style>
+</head>
+<body>
+    <header role="banner">
+        <nav class="navbar" id="main-nav" role="navigation" aria-label="Primary navigation"></nav>
+    </header>
+
+    <main role="main" aria-label="Sales Reports">
+        <div class="page-header">
+            <div>
+                <h1>Sales Report</h1>
+                <p>March 2026 &mdash; Soweto Branch</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-danger" id="exportPDF">
+                    <i class="fas fa-file-pdf" aria-hidden="true"></i> Export PDF
+                </button>
+                <button class="btn btn-success" id="exportCSV">
+                    <i class="fas fa-file-csv" aria-hidden="true"></i> Export CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Period Tabs -->
+        <div class="report-tabs">
+            <div class="tab-list" role="tablist" aria-label="Report period">
+                <button class="tab-btn" data-tab="daily" role="tab">Daily</button>
+                <button class="tab-btn" data-tab="weekly" role="tab">Weekly</button>
+                <button class="tab-btn active" data-tab="monthly" role="tab" aria-selected="true">Monthly</button>
+                <button class="tab-btn" data-tab="custom" role="tab">Custom Range</button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card" style="margin-bottom:var(--spacing-lg)">
+            <div class="filter-bar">
+                <label for="dateFrom" style="font-size:0.875rem;font-weight:600;white-space:nowrap">From:</label>
+                <input type="date" id="dateFrom" value="2026-03-01" aria-label="Start date">
+                <label for="dateTo" style="font-size:0.875rem;font-weight:600;white-space:nowrap">To:</label>
+                <input type="date" id="dateTo" value="2026-03-31" aria-label="End date">
+                <select id="storeFilter" aria-label="Filter by store">
+                    <option value="">All Stores</option>
+                    <option value="Soweto">Soweto Branch</option>
+                    <option value="Sandton">Sandton Branch</option>
+                    <option value="Pretoria">Pretoria Branch</option>
+                </select>
+                <select id="paymentFilter" aria-label="Filter by payment method">
+                    <option value="">All Payment Methods</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Card">Card</option>
+                    <option value="Mobile">Mobile</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="report-summary" role="region" aria-label="Sales summary">
+            <div class="report-card">
+                <p class="label">Total Sales</p>
+                <p class="value" id="totalSales">R0.00</p>
+                <p class="sub">All transactions</p>
+            </div>
+            <div class="report-card">
+                <p class="label">Transactions</p>
+                <p class="value" id="totalTransactions">0</p>
+                <p class="sub">This period</p>
+            </div>
+            <div class="report-card">
+                <p class="label">Avg. Transaction</p>
+                <p class="value" id="avgTransaction">R0.00</p>
+                <p class="sub">Per sale</p>
+            </div>
+        </div>
+
+        <!-- Payment Breakdown -->
+        <div class="payment-breakdown" role="region" aria-label="Payment method breakdown">
+            <div class="payment-card">
+                <div class="payment-icon cash" aria-hidden="true"><i class="fas fa-money-bill-wave"></i></div>
+                <div>
+                    <p style="font-size:0.75rem;color:var(--text-secondary);font-weight:600">CASH</p>
+                    <p style="font-weight:700" id="cashSales">R0.00</p>
+                </div>
+            </div>
+            <div class="payment-card">
+                <div class="payment-icon card" aria-hidden="true"><i class="fas fa-credit-card"></i></div>
+                <div>
+                    <p style="font-size:0.75rem;color:var(--text-secondary);font-weight:600">CARD</p>
+                    <p style="font-weight:700" id="cardSales">R0.00</p>
+                </div>
+            </div>
+            <div class="payment-card">
+                <div class="payment-icon mobile" aria-hidden="true"><i class="fas fa-mobile-alt"></i></div>
+                <div>
+                    <p style="font-size:0.75rem;color:var(--text-secondary);font-weight:600">MOBILE</p>
+                    <p style="font-weight:700" id="mobileSales">R0.00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Table -->
+        <div class="table-wrapper">
+            <table aria-label="Sales transactions table">
+                <thead>
+                    <tr>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Store</th>
+                    </tr>
+                </thead>
+                <tbody id="salesTableBody" aria-live="polite"></tbody>
+            </table>
+            <div class="table-total" aria-live="polite">
+                <span>Total Sales:</span>
+                <span id="tableTotalSales">R0.00</span>
+            </div>
+        </div>
+    </main>
+
+    <footer role="contentinfo" id="main-footer"></footer>
+
+    <script type="module" src="../js/sales-report.js"></script>
+</body>
+</html>

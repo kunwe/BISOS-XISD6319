@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Low Stock Alerts - BISOS">
+    <title>Low Stock Alerts | BISOS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .alerts-kpi { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:var(--spacing-md); margin-bottom:var(--spacing-lg); }
+        .kpi-card { background:var(--card-bg); padding:var(--spacing-md); border-radius:var(--border-radius); box-shadow:var(--shadow); text-align:center; border-top:3px solid transparent; }
+        .kpi-card.danger { border-top-color:var(--danger); }
+        .kpi-card.warning { border-top-color:var(--warning); }
+        .kpi-card.success { border-top-color:var(--success); }
+        .kpi-card .kpi-value { font-size:2rem; font-weight:700; }
+        .kpi-card.danger .kpi-value { color:var(--danger); }
+        .kpi-card.warning .kpi-value { color:var(--warning); }
+        .kpi-card.success .kpi-value { color:var(--success); }
+        .kpi-card .kpi-label { font-size:0.8rem; color:var(--text-secondary); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+        .bulk-actions { display:flex; gap:var(--spacing-sm); margin-bottom:var(--spacing-md); flex-wrap:wrap; align-items:center; }
+        .bulk-actions span { font-size:0.875rem; color:var(--text-secondary); margin-right:0.5rem; }
+        .filter-tabs { display:flex; gap:0.3rem; margin-bottom:var(--spacing-md); }
+        .filter-tab { padding:0.45rem 1rem; border:2px solid #E0E0E0; border-radius:20px; background:white; font-size:0.85rem; font-weight:500; cursor:pointer; transition:all 0.2s; font-family:var(--font-family); color:var(--text-secondary); }
+        .filter-tab.active { background:var(--primary); color:white; border-color:var(--primary); }
+        .alert-icon { font-size:1.5rem; margin-right:0.5rem; }
+    </style>
+</head>
+<body>
+    <header role="banner">
+        <nav class="navbar" id="main-nav" role="navigation" aria-label="Primary navigation"></nav>
+    </header>
+
+    <main role="main" aria-label="Low Stock Alerts">
+        <div class="page-header">
+            <div>
+                <h1><span class="alert-icon" aria-hidden="true">⚠️</span> Low Stock Alerts</h1>
+                <p>Monitor and manage inventory alerts across all stores</p>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="alerts-kpi" role="region" aria-label="Alert statistics">
+            <div class="kpi-card danger">
+                <p class="kpi-value" id="pendingCount">0</p>
+                <p class="kpi-label">Pending Alerts</p>
+            </div>
+            <div class="kpi-card warning">
+                <p class="kpi-value" id="criticalCount">0</p>
+                <p class="kpi-label">Critical Items</p>
+            </div>
+            <div class="kpi-card success">
+                <p class="kpi-value" id="resolvedCount">0</p>
+                <p class="kpi-label">Resolved Today</p>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs" role="tablist" aria-label="Filter alerts by status">
+            <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All Alerts</button>
+            <button class="filter-tab" data-filter="pending" role="tab">Pending</button>
+            <button class="filter-tab" data-filter="acknowledged" role="tab">Acknowledged</button>
+            <button class="filter-tab" data-filter="resolved" role="tab">Resolved</button>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="bulk-actions" role="toolbar" aria-label="Bulk alert actions">
+            <span>Bulk Actions:</span>
+            <button class="btn btn-warning" id="acknowledgeAllBtn">
+                <i class="fas fa-check" aria-hidden="true"></i> Acknowledge All
+            </button>
+            <button class="btn btn-success" id="resolveAllBtn">
+                <i class="fas fa-check-double" aria-hidden="true"></i> Resolve All
+            </button>
+            <button class="btn btn-primary" id="placeAllReordersBtn">
+                <i class="fas fa-truck" aria-hidden="true"></i> Place All Reorders
+            </button>
+        </div>
+
+        <!-- Alerts Table -->
+        <div class="table-wrapper">
+            <table aria-label="Low stock alerts table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Store</th>
+                        <th scope="col">Current Stock</th>
+                        <th scope="col">Reorder Level</th>
+                        <th scope="col">Severity</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="alertsTableBody" aria-live="polite"></tbody>
+            </table>
+        </div>
+
+        <!-- Alert History Link -->
+        <div style="margin-top:var(--spacing-md);text-align:center">
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-history" aria-hidden="true"></i> View Full Alert History
+            </a>
+        </div>
+    </main>
+
+    <footer role="contentinfo" id="main-footer"></footer>
+
+    <script type="module" src="../js/alerts.js"></script>
+</body>
+</html>

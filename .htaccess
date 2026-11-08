@@ -1,0 +1,2 @@
+# Disable MultiViews to prevent Apache Content Negotiation 406 errors
+Options -MultiViews -Indexes

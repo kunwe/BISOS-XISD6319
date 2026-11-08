@@ -1,0 +1,119 @@
+================================================================================
+          BISOS INFORMAL MART - APP & WEBSITE INTEGRATION UPDATE LOG
+================================================================================
+Web Portal URL: http://localhost/bisos-php
+API Endpoint:   http://localhost/bisos-php/api
+App Package:    com.example.informalsupermarket
+App Name:       Informal Mart (BISOS Mobile)
+================================================================================
+
+1. SYSTEM & BRANDING UPDATES
+--------------------------------------------------------------------------------
+- Official BISOS Branding: Applied official dark navy (#0D2C54) and light blue
+  (#1E88E5) brand emblem and full logo on Login, Register, and Launcher Icon.
+- True Light & Dark Theme: Dynamic Light/Dark Mode toggle in Settings.
+  In Dark Mode, screen background switches to #12181F, card surfaces to #1E2733,
+  and all words/text switch to pure white (#FFFFFF).
+- Multi-Language Localization: Dynamic language switching supporting:
+  * English (Default)
+  * Afrikaans (res/values-af)
+  * isiZulu (res/values-zu)
+  * Sesotho (res/values-st)
+- Settings & Profile Picture: Custom profile photo upload/camera capture, AI
+  avatar selector, photo removal, and SharedPreferences persistence.
+
+2. MULTI-STORE DATABASE ISOLATION & REGISTRATION
+--------------------------------------------------------------------------------
+- Strict Per-Store Data Isolation: Each store branch (Soweto Supermarket,
+  Sandton Branch, Pretoria Branch) maintains its own isolated database state
+  for products, stock levels, low-stock alerts, sales, and reports.
+- Multi-Store Registration: "Store Managing Details" section on Register screen:
+  * Join Existing Store (Dropdown selection of saved database stores).
+  * Create New Store (Editable text fields for Store Name, Address, Company Tel).
+- Active Store Switcher: Settings header displays the active store with an
+  interactive dropdown switcher to change managed branches.
+- Edit Store Information Dialog: Modal dialog in Settings pre-filled with
+  Store Name, Address, and Contact Phone with database persistence.
+
+3. DUAL-MODE ACCOUNT DATABASE (ONLINE & OFFLINE AUTO-SYNC)
+--------------------------------------------------------------------------------
+- Account Repository: Persistent account storage recording accounts created
+  both online (MySQL User table) and offline (device SharedPreferences).
+- Offline-to-Online Auto-Sync Engine: Accounts registered offline marked with
+  pending status automatically upload to MySQL when network/ngrok reconnects.
+- Instant Offline Authentication: Sign in offline feature using local account database.
+
+4. STOCK & INVENTORY MANAGEMENT
+--------------------------------------------------------------------------------
+- Clickable Stock Cards: Tapping any inventory card opens a "View & Edit Product"
+  modal dialog to modify Name, Selling Price, Stock Quantity, Threshold, and Barcode.
+- AI Stock Image Generator (Pollinations.ai): Automatically generates real-time
+  photorealistic product images based on product names.
+- Smart Measurement Parsing: Intelligently detects and formats units (kg, L,
+  ml, mg, g, pack) into package prompts (e.g. 2L bottle, 1kg bag, 700g loaf).
+- Image Control Options:
+  * ✨ Regenerate AI Image (Generates a new AI product photo with fresh seed)
+  * 📷 Replace Photo (Captures/uploads custom photo)
+  * 🗑️ Remove Image (Reverts to clean default ic_store icon on #E3F2FD card)
+- Barcode Scanner & Search: TopBar barcode scan button and search bar filtering
+  inventory by name or barcode (e.g. 6001234567890).
+- Camera Item Photo Capture: Camera photo capture launcher on Add Product Screen.
+
+5. REAL-TIME SALES & AUTOMATIC STOCK DEDUCTION / RESTORATION
+--------------------------------------------------------------------------------
+- Record New Sale: Select product, quantity, payment method (CASH, CARD, MOBILE).
+  Automatically deducts sold items from MySQL Stock table in real-time.
+- Void / Delete Sale: Voiding a transaction in Recent Transactions automatically
+  restores sold item quantities back into available stock.
+- Delete Product: Option to delete product from inventory with confirmation dialog.
+
+6. LOW STOCK ALERTS (< 50 THRESHOLD)
+--------------------------------------------------------------------------------
+- Low Stock Threshold (< 50): Automatically flags any product with quantity
+  less than 50 as Low Stock on Dashboard, Alert Dialog, and Stock Screen.
+
+7. SALES REPORT DASHBOARD
+--------------------------------------------------------------------------------
+- Period Tabs: Daily, Weekly, Monthly (Default), Custom Range.
+- Export Actions: Export PDF (Red button #D32F2F) and Export CSV (Green button #2E7D32).
+- Filter Controls: From Date & To Date pickers, Store selector, Payment Method selector.
+- Key Metrics Cards: Total Sales, Transaction Count, Average Transaction.
+- Payment Method Breakdown Cards: CASH, CARD, MOBILE totals with custom icons.
+- Detailed Transaction Table: Columns for TXN ID, Date, Product, Qty, Unit Price,
+  Total, Store, and Payment (color-coded pill badges for Cash, Card, Mobile).
+
+================================================================================
+8. PHP BACKEND API ENDPOINTS REFERENCE (http://localhost/bisos-php/api)
+================================================================================
+GET  /ping                     - Health check ping
+POST /auth/login               - Login & return JWT/token + user object
+POST /auth/register            - Register user account (Online & Sync)
+GET  /stocks?store_id={id}     - Fetch products & stock levels for store
+POST /products                - Add new product to store
+POST /products/update          - Update product name, price, stock, threshold
+POST /products/delete          - Delete product from store
+GET  /alerts?store_id={id}     - Fetch low stock alerts (< 50 items)
+POST /sales                    - Record new sale & deduct stock quantity
+POST /sales/void               - Void sale & restore stock quantity
+GET  /sales/report?store_id={id}- Fetch sales report & payment method totals
+
+================================================================================
+9. MYSQL DATABASE TABLES (bisos_db)
+================================================================================
+- Store             (store_id, name, address, phone, manager_name)
+- User              (user_id, store_id, role_id, username, email, password_hash)
+- Product           (product_id, store_id, name, category, barcode, cost_price, selling_price, reorder_level)
+- Stock             (stock_id, product_id, quantity, minimum_level, maximum_level)
+- LowStockAlert     (alert_id, product_id, current_quantity, reorder_level, status)
+- SalesTransaction  (transaction_id, store_id, transaction_ref, payment_method, total_amount, status)
+- SalesItem         (sales_item_id, transaction_id, product_id, quantity, unit_price, total_price)
+
+================================================================================
+10. HOW TO LINK APP AND PHP WEBSITE
+================================================================================
+1. Start WAMP/XAMPP Apache and MySQL services on your computer.
+2. Import database/schema.sql and database/seed.sql into MySQL.
+3. Place bisos-php files in C:\wamp64\www\bisos-php\
+4. Access website at: http://localhost/bisos-php
+5. The Android app connects to http://localhost/bisos-php/api (or 10.0.2.2 for emulator / ngrok URL for device).
+================================================================================

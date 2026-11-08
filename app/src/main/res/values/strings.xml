@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Informal Mart</string>
+    <string name="dashboard_title">DASHBOARD</string>
+    <string name="total_stock">Total Stock</string>
+    <string name="low_stock_alerts">Low Stock Alerts</string>
+    <string name="todays_sales">Today\'s Sales</string>
+    <string name="view_stock">View Stock</string>
+    <string name="add_stock">Add Stock</string>
+    <string name="view_sales">View Sales</string>
+    <string name="view_alerts">View Alerts</string>
+    <string name="view_all">View All</string>
+    <string name="fresh_milk">Fresh Milk (2L)</string>
+    <string name="rice">Rice (5kg)</string>
+    <string name="cooking_oil">Cooking Oil (2L)</string>
+
+    <string name="login_slogan">Manage your store, grow your business</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="or_continue_with">or continue with</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="register_here">Register Here</string>
+
+    <string name="low_stock_alert_title">LOW STOCK ALERT</string>
+    <string name="low_stock_alert_desc">The following items are low on stock.\nPlease take action.</string>
+    <string name="acknowledge">Acknowledge</string>
+    <string name="reorder_now">Reorder Now</string>
+    <string name="acknowledge_all">Acknowledge All</string>
+    <string name="current">Current:</string>
+    <string name="threshold">Threshold:</string>
+
+    <string name="sales_report_title">Sales Report</string>
+    <string name="total_sales">Total Sales</string>
+    <string name="transactions">Transactions</string>
+    <string name="avg_sale">Avg Sale</string>
+    <string name="sales_summary">Sales Summary</string>
+    <string name="product">Product</string>
+    <string name="qty">Qty</string>
+    <string name="unit_price">Unit Price</string>
+    <string name="total">Total</string>
+    <string name="export_pdf">Export PDF</string>
+
+    <string name="home">Home</string>
+    <string name="stock">Stock</string>
+    <string name="sales">Sales</string>
+    <string name="reports">Reports</string>
+    <string name="settings">Settings</string>
+</resources>

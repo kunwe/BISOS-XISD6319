@@ -1,0 +1,32 @@
+# Task: Generate Kotlin Source Code
+
+- [ ] Task 1: Data Models (`com.yourcompany.informalsupermarket.data`)
+    - [ ] `Product.kt`
+    - [ ] `Stock.kt`
+    - [ ] `Category.kt`
+    - [ ] `SalesReport.kt`
+    - [ ] `SaleItem.kt`
+    - [ ] `LowStockAlert.kt`
+    - [ ] `LoginRequest.kt`
+    - [ ] `AuthResponse.kt`
+    - [ ] `User.kt`
+- [ ] Task 2: Network Layer (`com.yourcompany.informalsupermarket.network`)
+    - [ ] `ApiService.kt`
+    - [ ] `RetrofitClient.kt`
+- [ ] Task 3: Repository & ViewModel
+    - [ ] `Repository.kt`
+    - [ ] `MainViewModel.kt`
+    - [ ] `MainViewModelFactory.kt`
+- [ ] Task 4: Utilities (`com.yourcompany.informalsupermarket.utils`)
+    - [ ] `SharedPreferencesManager.kt`
+- [ ] Task 6: RecyclerView Adapters (`com.yourcompany.informalsupermarket.ui.adapters`)
+    - [ ] `ProductAdapter.kt`
+    - [ ] `AlertAdapter.kt`
+    - [ ] `SalesItemAdapter.kt`
+- [ ] Task 5: Activities & Fragments (`com.yourcompany.informalsupermarket.ui`)
+    - [ ] `LoginActivity.kt`
+    - [ ] `DashboardActivity.kt`
+    - [ ] `StockListFragment.kt`
+    - [ ] `AddStockFragment.kt`
+    - [ ] `LowStockAlertsFragment.kt`
+    - [ ] `SalesReportFragment.kt`

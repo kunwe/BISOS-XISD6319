@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Informal Mart</string>
+    <string name="dashboard_title">LITABA TSA SONTRO</string>
+    <string name="total_stock">Setoko Ka Kofela</string>
+    <string name="low_stock_alerts">Litemoso Tsa Setoko Se Senyane</string>
+    <string name="todays_sales">Thekiso Ya Kajeno</string>
+    <string name="view_stock">Bona Setoko</string>
+    <string name="add_stock">Eketsa Setoko</string>
+    <string name="view_sales">Bona Thekiso</string>
+    <string name="view_alerts">Bona Litemoso</string>
+    <string name="view_all">Bona Tsohle</string>
+    <string name="fresh_milk">Mesele O Motjha (2L)</string>
+    <string name="rice">Raese (5kg)</string>
+    <string name="cooking_oil">Ooli Ya Ho Pheha (2L)</string>
+
+    <string name="login_slogan">Swarang lebenkele la hao, holisa khoebo ya hao</string>
+    <string name="email_address">Aterese Ya Imeile</string>
+    <string name="password">Lentsoe La Sephiri</string>
+    <string name="login">Kena</string>
+    <string name="or_continue_with">kapa tswela pele ka</string>
+    <string name="sign_in_with_google">Kena ka Google</string>
+    <string name="dont_have_account">Ha o na akhaonto?</string>
+    <string name="register_here">Ngolisa Monge</string>
+
+    <string name="low_stock_alert_title">LITEMOSO TSA SETOKO SE SENYANE</string>
+    <string name="low_stock_alert_desc">Dihlahiswa tsena di tla fela haufi.\nKa kopo nka kgato.</string>
+    <string name="acknowledge">Dumela</string>
+    <string name="reorder_now">Oda Haufi</string>
+    <string name="acknowledge_all">Dumela Tsohle</string>
+    <string name="current">Hajoale:</string>
+    <string name="threshold">Sebaka:</string>
+
+    <string name="sales_report_title">Tlaleho Ya Thekiso</string>
+    <string name="total_sales">Palo Ya Thekiso</string>
+    <string name="transactions">Ditirisano</string>
+    <string name="avg_sale">Palohare Ya Thekiso</string>
+    <string name="sales_summary">Kakaretso Ya Thekiso</string>
+    <string name="product">Sehlahiswa</string>
+    <string name="qty">Palo</string>
+    <string name="unit_price">Theko Ya Yuniti</string>
+    <string name="total">Palo Ka Kofela</string>
+    <string name="export_pdf">Romela PDF</string>
+
+    <string name="home">Gae</string>
+    <string name="stock">Setoko</string>
+    <string name="sales">Thekiso</string>
+    <string name="reports">Ditlhoho</string>
+    <string name="settings">Dihlophiso</string>
+</resources>

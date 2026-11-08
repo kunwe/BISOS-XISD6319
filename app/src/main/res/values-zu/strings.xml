@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Informal Mart</string>
+    <string name="dashboard_title">IDESHIBHODI</string>
+    <string name="total_stock">Ingqikithi Yezimpahla</string>
+    <string name="low_stock_alerts">Izexwayiso Zezimpahla Ezincane</string>
+    <string name="todays_sales">Ukuthengisa Kwanamuhla</string>
+    <string name="view_stock">Buka Impahla</string>
+    <string name="add_stock">Engeza Impahla</string>
+    <string name="view_sales">Buka Ukuthengisa</string>
+    <string name="view_alerts">Buka Izexwayiso</string>
+    <string name="view_all">Buka Konke</string>
+    <string name="fresh_milk">Ubisi Olusha (2L)</string>
+    <string name="rice">Irayisi (5kg)</string>
+    <string name="cooking_oil">Amafutha Okupheka (2L)</string>
+
+    <string name="login_slogan">Phatha isitolo sakho, khulisa ibhizinisi lakho</string>
+    <string name="email_address">Ikkheli le-Imeyili</string>
+    <string name="password">Iphasiwedi</string>
+    <string name="login">Ngena</string>
+    <string name="or_continue_with">noma qhubeka nge</string>
+    <string name="sign_in_with_google">Ngena ngocingo lwe-Google</string>
+    <string name="dont_have_account">Aunakhawunti?</string>
+    <string name="register_here">Bhalisa Lapha</string>
+
+    <string name="low_stock_alert_title">ISEXWAYISO SEZIMPAHLA EZINCANE</string>
+    <string name="low_stock_alert_desc">Izimpahla ezilandelayo zincane kakhulu.\nSicela uthathe isinyathelo.</string>
+    <string name="acknowledge">Vuma</string>
+    <string name="reorder_now">Oda Manje</string>
+    <string name="acknowledge_all">Vuma Konke</string>
+    <string name="current">Okwamanje:</string>
+    <string name="threshold">Umkhawulo:</string>
+
+    <string name="sales_report_title">Umbiko Wokuthengiswa</string>
+    <string name="total_sales">Ingqikithi Yokuthengiswa</string>
+    <string name="transactions">Izinkokhelo</string>
+    <string name="avg_sale">Averaji Ye-Sale</string>
+    <string name="sales_summary">Isifingqo Sokuthengiswa</string>
+    <string name="product">Umkhiqizo</string>
+    <string name="qty">Inani</string>
+    <string name="unit_price">Intengo</string>
+    <string name="total">Ingqikithi</string>
+    <string name="export_pdf">Thumela i-PDF</string>
+
+    <string name="home">Ikhaya</string>
+    <string name="stock">Impahla</string>
+    <string name="sales">Ukuthengisa</string>
+    <string name="reports">Imibiko</string>
+    <string name="settings">Izilungiselelo</string>
+</resources>

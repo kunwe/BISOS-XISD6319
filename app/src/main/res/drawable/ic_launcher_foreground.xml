@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group
+        android:translateX="18"
+        android:translateY="18"
+        android:scaleX="0.36"
+        android:scaleY="0.36">
+        <!-- Main 'B' shape in Dark Navy Blue -->
+        <path
+            android:fillColor="#0D2C54"
+            android:pathData="M50,20 L110,20 C135,20 150,32 150,52 C150,65 140,75 125,80 C145,86 155,98 155,120 C155,145 135,160 105,160 L50,160 Z M75,42 L75,72 L105,72 C118,72 125,66 125,57 C125,48 118,42 105,42 Z M75,98 L75,138 L105,138 C120,138 128,130 128,118 C128,106 120,98 105,98 Z" />
+
+        <!-- Slash line cutout -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M48,82 L152,50 L152,58 L48,90 Z" />
+
+        <!-- 3 Bar Chart Bars in Light Blue -->
+        <path
+            android:fillColor="#1E88E5"
+            android:pathData="M83,122 L91,122 L91,138 L83,138 Z M95,114 L103,114 L103,138 L95,138 Z M107,106 L115,106 L115,138 L107,138 Z" />
+    </group>
+
+</vector>

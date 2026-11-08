@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Informal Mart</string>
+    <string name="dashboard_title">KONTROLESKERM</string>
+    <string name="total_stock">Totale Voorraad</string>
+    <string name="low_stock_alerts">Lae Voorraad Waarskuwings</string>
+    <string name="todays_sales">Vandag se Verkope</string>
+    <string name="view_stock">Sien Voorraad</string>
+    <string name="add_stock">Voeg Voorraad By</string>
+    <string name="view_sales">Sien Verkope</string>
+    <string name="view_alerts">Sien Waarskuwings</string>
+    <string name="view_all">Sien Alles</string>
+    <string name="fresh_milk">Vars Melk (2L)</string>
+    <string name="rice">Rys (5kg)</string>
+    <string name="cooking_oil">Kookolie (2L)</string>
+
+    <string name="login_slogan">Bestuur jou winkel, laat jou besigheid groei</string>
+    <string name="email_address">E-posadres</string>
+    <string name="password">Wagwoord</string>
+    <string name="login">Teken In</string>
+    <string name="or_continue_with">of gaan voort met</string>
+    <string name="sign_in_with_google">Meld aan met Google</string>
+    <string name="dont_have_account">Het jy nie \'n rekening nie?</string>
+    <string name="register_here">Registreer Hier</string>
+
+    <string name="low_stock_alert_title">LAE VOORRAAD WAARSKUWING</string>
+    <string name="low_stock_alert_desc">Die volgende items het lae voorraad.\nNeem asseblief aksie.</string>
+    <string name="acknowledge">Erken</string>
+    <string name="reorder_now">Bestel Nou</string>
+    <string name="acknowledge_all">Erken Alles</string>
+    <string name="current">Huidige:</string>
+    <string name="threshold">Drempel:</string>
+
+    <string name="sales_report_title">Verkoopsverslag</string>
+    <string name="total_sales">Totale Verkope</string>
+    <string name="transactions">Transaksies</string>
+    <string name="avg_sale">Gem. Verkoop</string>
+    <string name="sales_summary">Verkoopsopsomming</string>
+    <string name="product">Produk</string>
+    <string name="qty">Hvh</string>
+    <string name="unit_price">Eenheidsprys</string>
+    <string name="total">Totaal</string>
+    <string name="export_pdf">Voer PDF Uit</string>
+
+    <string name="home">Tuis</string>
+    <string name="stock">Voorraad</string>
+    <string name="sales">Verkope</string>
+    <string name="reports">Verslae</string>
+    <string name="settings">Instellings</string>
+</resources>

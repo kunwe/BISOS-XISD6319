@@ -1,0 +1,11 @@
+- `[x]` Add dependencies (Navigation, Coil, ViewModel)
+- `[x]` Create `InformalMartViewModel` with mock data
+- `[x]` Implement Navigation Graph in `InformalMartApp`
+- `[x]` Create `RegisterScreen`
+- `[x]` Create `StockScreen` with Coil image loading
+- `[x]` Create `AddStockScreen`
+- `[x]` Create `SalesScreen`
+- `[x]` Update `DashboardScreen` with navigation and real data
+- `[x]` Update `LoginScreen` with navigation
+- `[x]` Update `SalesReportScreen` with navigation
+- `[/]` Final verification and build

@@ -14,13 +14,31 @@
     <string name="cooking_oil">Amafutha Okupheka (2L)</string>
 
     <string name="login_slogan">Phatha isitolo sakho, khulisa ibhizinisi lakho</string>
-    <string name="email_address">Ikkheli le-Imeyili</string>
+    <string name="email_address">Ikheli Le-Imeyili</string>
     <string name="password">Iphasiwedi</string>
     <string name="login">Ngena</string>
+    <string name="sign_in_offline">Ngena Inthanethi Ayikho</string>
     <string name="or_continue_with">noma qhubeka nge</string>
     <string name="sign_in_with_google">Ngena ngocingo lwe-Google</string>
+    <string name="sign_up_with_google">Bhalisa nge-Google</string>
     <string name="dont_have_account">Aunakhawunti?</string>
+    <string name="already_have_account">Unayo akhawunti?</string>
     <string name="register_here">Bhalisa Lapha</string>
+    <string name="sign_in">Ngena</string>
+    <string name="create_account">Dala Inkhawunti</string>
+
+    <string name="first_name">Igama Lokuqala</string>
+    <string name="last_name">Isibongo</string>
+    <string name="phone_number">Inombolo Yocingo</string>
+    <string name="role">Isevisi</string>
+    <string name="store_managing">Uluwazi Luphatha Isitolo</string>
+    <string name="create_new_store">Dala Isitolo Esisha</string>
+    <string name="join_existing_store">Joyina Isitolo Esikhona</string>
+    <string name="store_name">Igama Lesitolo</string>
+    <string name="store_address">Ikheli Lesitolo</string>
+    <string name="company_tel">Ucingo Lwenkampani</string>
+    <string name="confirm_password">Qinisekisa Iphasiwedi</string>
+    <string name="agree_terms">Ngiyavuma kuyo Yonke Imigomo</string>
 
     <string name="low_stock_alert_title">ISEXWAYISO SEZIMPAHLA EZINCANE</string>
     <string name="low_stock_alert_desc">Izimpahla ezilandelayo zincane kakhulu.\nSicela uthathe isinyathelo.</string>
@@ -40,6 +58,21 @@
     <string name="unit_price">Intengo</string>
     <string name="total">Ingqikithi</string>
     <string name="export_pdf">Thumela i-PDF</string>
+    <string name="export_csv">Thumela i-CSV</string>
+
+    <string name="profile_settings">Izilungiselelo Yephrofayili</string>
+    <string name="notification_prefs">Izilungiselelo Zezaziso</string>
+    <string name="store_information">Ulwazi Lesitolo</string>
+    <string name="language">Ulimi</string>
+    <string name="app_theme">Isihloko Sohlelo</string>
+    <string name="server_connection">Xhumana Nesisekelo (ngrok)</string>
+    <string name="logout">Phuma</string>
+
+    <string name="inventory">Izimpahla</string>
+    <string name="recent_transactions">Ukuthengisa Kwamva Nje</string>
+    <string name="search_products">Cinga imikhiqizo...</string>
+    <string name="save_changes">Gcina Izinguquko</string>
+    <string name="cancel">Khansela</string>
 
     <string name="home">Ikhaya</string>
     <string name="stock">Impahla</string>

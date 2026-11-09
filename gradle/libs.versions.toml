@@ -19,6 +19,8 @@ lifecycleViewmodelCompose = "2.8.7"
 navigationCompose = "2.8.7"
 coilCompose = "2.7.0"
 gson = "2.12.1"
+firebaseBom = "33.9.0"
+googleServices = "4.4.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,8 +45,10 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

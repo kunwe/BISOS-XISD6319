@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -166,14 +167,14 @@ fun SettingsScreen(
             ) {
                 Column {
                     SettingRow(
-                        title = "Profile Settings",
+                        title = stringResource(R.string.profile_settings),
                         subtitle = "Manage personal details & contact",
                         iconRes = R.drawable.ic_account,
                         onClick = { showProfileDialog = true }
                     )
                     HorizontalDivider(color = Gray200)
                     SettingRow(
-                        title = "Notification Preferences",
+                        title = stringResource(R.string.notification_prefs),
                         subtitle = "Stock alerts & daily summaries",
                         iconRes = R.drawable.ic_notifications,
                         badge = if (lowStockAlerts) "Enabled" else "Disabled",
@@ -181,14 +182,14 @@ fun SettingsScreen(
                     )
                     HorizontalDivider(color = Gray200)
                     SettingRow(
-                        title = "Store Information",
+                        title = stringResource(R.string.store_information),
                         subtitle = storeName,
                         iconRes = R.drawable.ic_store,
                         onClick = { showStoreInfoDialog = true }
                     )
                     HorizontalDivider(color = Gray200)
                     SettingRow(
-                        title = "Language",
+                        title = stringResource(R.string.language),
                         subtitle = selectedLanguage,
                         iconRes = R.drawable.ic_settings,
                         badge = selectedLanguage,
@@ -196,7 +197,7 @@ fun SettingsScreen(
                     )
                     HorizontalDivider(color = Gray200)
                     SettingRow(
-                        title = "App Theme",
+                        title = stringResource(R.string.app_theme),
                         subtitle = if (isDarkMode) "Dark Theme Enabled" else "Light Theme Enabled",
                         iconRes = R.drawable.ic_settings,
                         badge = if (isDarkMode) "Dark" else "Light",
@@ -204,7 +205,7 @@ fun SettingsScreen(
                     )
                     HorizontalDivider(color = Gray200)
                     SettingRow(
-                        title = "Server Connection (ngrok)",
+                        title = stringResource(R.string.server_connection),
                         subtitle = "Configure backend API URL",
                         iconRes = R.drawable.ic_trending_up,
                         onClick = { showServerDialog = true }

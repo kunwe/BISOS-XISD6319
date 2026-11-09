@@ -17,10 +17,28 @@
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="sign_in_offline">Sign In Offline</string>
     <string name="or_continue_with">or continue with</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
     <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="already_have_account">Already have an account?</string>
     <string name="register_here">Register Here</string>
+    <string name="sign_in">Sign in</string>
+    <string name="create_account">Create Account</string>
+
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="role">Role</string>
+    <string name="store_managing">Store Managing Details</string>
+    <string name="create_new_store">Create New Store</string>
+    <string name="join_existing_store">Join Existing Store</string>
+    <string name="store_name">Store Name</string>
+    <string name="store_address">Store Address</string>
+    <string name="company_tel">Company Tel Number</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="agree_terms">I agree to the Terms of Service</string>
 
     <string name="low_stock_alert_title">LOW STOCK ALERT</string>
     <string name="low_stock_alert_desc">The following items are low on stock.\nPlease take action.</string>
@@ -40,6 +58,21 @@
     <string name="unit_price">Unit Price</string>
     <string name="total">Total</string>
     <string name="export_pdf">Export PDF</string>
+    <string name="export_csv">Export CSV</string>
+
+    <string name="profile_settings">Profile Settings</string>
+    <string name="notification_prefs">Notification Preferences</string>
+    <string name="store_information">Store Information</string>
+    <string name="language">Language</string>
+    <string name="app_theme">App Theme</string>
+    <string name="server_connection">Server Connection (ngrok)</string>
+    <string name="logout">Logout</string>
+
+    <string name="inventory">Inventory</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="search_products">Search products...</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="cancel">Cancel</string>
 
     <string name="home">Home</string>
     <string name="stock">Stock</string>

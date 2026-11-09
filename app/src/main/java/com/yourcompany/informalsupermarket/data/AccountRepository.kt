@@ -55,6 +55,16 @@ object AccountRepository {
         persistLocal(context)
     }
 
+    fun isAccountRegistered(email: String): Boolean {
+        val target = email.trim().lowercase()
+        return target.isNotBlank() && _accounts.value.any { it.email.trim().lowercase() == target }
+    }
+
+    fun getAccountByEmail(email: String): Account? {
+        val target = email.trim().lowercase()
+        return _accounts.value.find { it.email.trim().lowercase() == target }
+    }
+
     fun authenticateOffline(email: String, password: String): Account? {
         return _accounts.value.find {
             it.email.equals(email.trim(), ignoreCase = true) &&

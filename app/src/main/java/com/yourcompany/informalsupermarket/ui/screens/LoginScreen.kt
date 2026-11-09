@@ -30,6 +30,7 @@ fun LoginScreen(
     onTestConnection: () -> Unit = {},
     onLoginClick: (email: String, password: String) -> Unit = { _, _ -> },
     onLoginOffline: (email: String, password: String) -> Unit = { _, _ -> },
+    onGoogleSignInClick: (email: String) -> Unit = {},
     onRegisterClick: () -> Unit = {}
 ) {
     var email by remember { mutableStateOf("") }
@@ -142,7 +143,7 @@ fun LoginScreen(
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Sign In Offline", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.sign_in_offline), fontSize = 15.sp, fontWeight = FontWeight.Bold)
             }
         }
 
@@ -163,7 +164,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedButton(
-            onClick = {},
+            onClick = { onGoogleSignInClick(email) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),

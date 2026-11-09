@@ -83,7 +83,8 @@ fun InformalMartApp() {
         }
     }
 
-    InformalSupermarketTheme(darkTheme = isDarkMode) {
+    key(currentLanguage) {
+        InformalSupermarketTheme(darkTheme = isDarkMode) {
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
             bottomBar = {
@@ -139,6 +140,20 @@ fun InformalMartApp() {
                                 }
                             }
                         },
+                        onGoogleSignInClick = { emailInput ->
+                            viewModel.loginWithGoogle(
+                                context = context,
+                                enteredEmail = emailInput,
+                                onRegistered = {
+                                    navController.navigate(Routes.DASHBOARD) {
+                                        popUpTo(0) { inclusive = true }
+                                    }
+                                },
+                                onNotRegistered = {
+                                    navController.navigate(Routes.REGISTER)
+                                }
+                            )
+                        },
                         onRegisterClick = { navController.navigate(Routes.REGISTER) }
                     )
                 }
@@ -146,6 +161,20 @@ fun InformalMartApp() {
                     RegisterScreen(
                         isLoading = isLoading,
                         onBackClick = { navController.popBackStack() },
+                        onGoogleSignInClick = {
+                            viewModel.loginWithGoogle(
+                                context = context,
+                                enteredEmail = "",
+                                onRegistered = {
+                                    navController.navigate(Routes.DASHBOARD) {
+                                        popUpTo(0) { inclusive = true }
+                                    }
+                                },
+                                onNotRegistered = {
+                                    // Already on register screen
+                                }
+                            )
+                        },
                         onRegisterClick = { name, email, password, sName, sAddress, sPhone ->
                             viewModel.setStoreDetails(sName, sAddress, sPhone)
                             viewModel.register(context, name, email, password) {
@@ -249,3 +278,5 @@ fun InformalMartApp() {
         }
     }
 }
+}
+

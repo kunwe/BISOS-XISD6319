@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -30,6 +31,7 @@ fun RegisterScreen(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     onBackClick: () -> Unit = {},
+    onGoogleSignInClick: () -> Unit = {},
     onRegisterClick: (name: String, email: String, password: String, storeName: String, storeAddress: String, storeTel: String) -> Unit = { _, _, _, _, _, _ -> }
 ) {
     var firstName by remember { mutableStateOf("") }
@@ -91,14 +93,14 @@ fun RegisterScreen(
 
             // Title & Subtitle
             Text(
-                text = "Create Account",
+                text = stringResource(R.string.create_account),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Blue900
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = "Join BISOS to manage your store",
+                text = stringResource(R.string.login_slogan),
                 fontSize = 12.sp,
                 color = Gray600
             )
@@ -111,12 +113,12 @@ fun RegisterScreen(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("First Name", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                    Text(stringResource(R.string.first_name), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
                         value = firstName,
                         onValueChange = { firstName = it },
-                        placeholder = { Text("First name", fontSize = 13.sp) },
+                        placeholder = { Text(stringResource(R.string.first_name), fontSize = 13.sp) },
                         leadingIcon = {
                             Icon(painterResource(id = R.drawable.ic_account), contentDescription = null, modifier = Modifier.size(18.dp), tint = Gray600)
                         },
@@ -126,12 +128,12 @@ fun RegisterScreen(
                     )
                 }
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Last Name", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                    Text(stringResource(R.string.last_name), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
                         value = lastName,
                         onValueChange = { lastName = it },
-                        placeholder = { Text("Last name", fontSize = 13.sp) },
+                        placeholder = { Text(stringResource(R.string.last_name), fontSize = 13.sp) },
                         leadingIcon = {
                             Icon(painterResource(id = R.drawable.ic_account), contentDescription = null, modifier = Modifier.size(18.dp), tint = Gray600)
                         },
@@ -146,7 +148,7 @@ fun RegisterScreen(
 
             // 2. Email Address
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("Email Address", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                Text(stringResource(R.string.email_address), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = email,
@@ -166,7 +168,7 @@ fun RegisterScreen(
 
             // 3. Phone Number
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("Phone Number", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                Text(stringResource(R.string.phone_number), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = phone,
@@ -186,7 +188,7 @@ fun RegisterScreen(
 
             // 4. Role Selection FilterChips
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("Role", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                Text(stringResource(R.string.role), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -213,7 +215,7 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("Store Managing", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                Text(stringResource(R.string.store_managing), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
 
                 // Store Mode Selector Chips
                 Row(
@@ -223,7 +225,7 @@ fun RegisterScreen(
                     FilterChip(
                         selected = (storeMode == "CREATE"),
                         onClick = { storeMode = "CREATE" },
-                        label = { Text("Create New Store", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                        label = { Text(stringResource(R.string.create_new_store), fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = Blue900,
                             selectedLabelColor = White
@@ -232,7 +234,7 @@ fun RegisterScreen(
                     FilterChip(
                         selected = (storeMode == "JOIN"),
                         onClick = { storeMode = "JOIN" },
-                        label = { Text("Join Existing Store", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                        label = { Text(stringResource(R.string.join_existing_store), fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = Blue900,
                             selectedLabelColor = White
@@ -331,7 +333,7 @@ fun RegisterScreen(
 
             // 5. Password
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("Password", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                Text(stringResource(R.string.password), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = password,
@@ -361,7 +363,7 @@ fun RegisterScreen(
 
             // 6. Confirm Password
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("Confirm Password", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
+                Text(stringResource(R.string.confirm_password), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Blue900)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = confirmPassword,
@@ -400,17 +402,9 @@ fun RegisterScreen(
                     colors = CheckboxDefaults.colors(checkedColor = Blue900)
                 )
                 Text(
-                    text = "I agree to the ",
+                    text = stringResource(R.string.agree_terms),
                     fontSize = 12.sp,
                     color = Black
-                )
-                Text(
-                    text = "Terms of Service",
-                    fontSize = 12.sp,
-                    color = Blue500,
-                    fontWeight = FontWeight.SemiBold,
-                    textDecoration = TextDecoration.Underline,
-                    modifier = Modifier.clickable { }
                 )
             }
 
@@ -455,8 +449,33 @@ fun RegisterScreen(
                     ) {
                         Icon(painterResource(id = R.drawable.ic_account), contentDescription = null, tint = White, modifier = Modifier.size(18.dp))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Create Account", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = White)
+                        Text(stringResource(R.string.create_account), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = White)
                     }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Secondary Button: Google Sign Up
+            OutlinedButton(
+                onClick = onGoogleSignInClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(10.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Gray300)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .background(androidx.compose.ui.graphics.Color.LightGray, RoundedCornerShape(4.dp)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("G", fontWeight = FontWeight.Bold, color = androidx.compose.ui.graphics.Color.Blue)
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(text = stringResource(R.string.sign_up_with_google), color = Black, fontWeight = FontWeight.SemiBold)
                 }
             }
 
@@ -464,9 +483,9 @@ fun RegisterScreen(
 
             // Footer Link to Sign In
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Already have an account? ", fontSize = 12.sp, color = Gray600)
+                Text(stringResource(R.string.already_have_account) + " ", fontSize = 12.sp, color = Gray600)
                 Text(
-                    text = "Sign in",
+                    text = stringResource(R.string.sign_in),
                     fontSize = 12.sp,
                     color = Blue500,
                     fontWeight = FontWeight.Bold,

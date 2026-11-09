@@ -17,10 +17,28 @@
     <string name="email_address">E-posadres</string>
     <string name="password">Wagwoord</string>
     <string name="login">Teken In</string>
+    <string name="sign_in_offline">Teken In Oflyn</string>
     <string name="or_continue_with">of gaan voort met</string>
     <string name="sign_in_with_google">Meld aan met Google</string>
+    <string name="sign_up_with_google">Registreer met Google</string>
     <string name="dont_have_account">Het jy nie \'n rekening nie?</string>
+    <string name="already_have_account">Het jy reeds \'n rekening?</string>
     <string name="register_here">Registreer Hier</string>
+    <string name="sign_in">Teken In</string>
+    <string name="create_account">Skep Rekening</string>
+
+    <string name="first_name">Voornaam</string>
+    <string name="last_name">Van</string>
+    <string name="phone_number">Telefoonnommer</string>
+    <string name="role">Rol</string>
+    <string name="store_managing">Winkel Bestuursbesonderhede</string>
+    <string name="create_new_store">Skep Nuwe Winkel</string>
+    <string name="join_existing_store">Sluit Aan By Bestaande Winkel</string>
+    <string name="store_name">Winkel Naam</string>
+    <string name="store_address">Winkel Adres</string>
+    <string name="company_tel">Maatskappy Telefoon</string>
+    <string name="confirm_password">Bevestig Wagwoord</string>
+    <string name="agree_terms">Ek stem in tot die Diensvoorwaardes</string>
 
     <string name="low_stock_alert_title">LAE VOORRAAD WAARSKUWING</string>
     <string name="low_stock_alert_desc">Die volgende items het lae voorraad.\nNeem asseblief aksie.</string>
@@ -40,6 +58,21 @@
     <string name="unit_price">Eenheidsprys</string>
     <string name="total">Totaal</string>
     <string name="export_pdf">Voer PDF Uit</string>
+    <string name="export_csv">Voer CSV Uit</string>
+
+    <string name="profile_settings">Profiel Instellings</string>
+    <string name="notification_prefs">Kennisgewing Voorkeure</string>
+    <string name="store_information">Winkel Inligting</string>
+    <string name="language">Taal</string>
+    <string name="app_theme">Toepassing Tema</string>
+    <string name="server_connection">Bediener Verbinding (ngrok)</string>
+    <string name="logout">Teken Uit</string>
+
+    <string name="inventory">Inventaris</string>
+    <string name="recent_transactions">Onlangse Transaksies</string>
+    <string name="search_products">Soek produkte...</string>
+    <string name="save_changes">Stoors Veranderings</string>
+    <string name="cancel">Kanselleer</string>
 
     <string name="home">Tuis</string>
     <string name="stock">Voorraad</string>

@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 // The backend URL (your ngrok tunnel). Put this in local.properties (not committed to git):
@@ -64,6 +65,9 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.gson)
+
+    implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
+    implementation("com.google.firebase:firebase-auth-ktx")
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)

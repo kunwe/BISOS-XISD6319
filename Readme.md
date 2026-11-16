@@ -608,6 +608,7 @@ The BISOS and Informal Mart project was developed by the following group members
 **Submission:** Part 2 POE
 
 ---
+Updated the Group attendance
 
 <p align="center">
 

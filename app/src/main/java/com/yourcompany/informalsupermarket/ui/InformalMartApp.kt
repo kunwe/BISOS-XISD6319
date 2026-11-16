@@ -251,6 +251,12 @@ fun InformalMartApp() {
                                 com.yourcompany.informalsupermarket.data.Store(activeId, sName, sAddress, sPhone)
                             )
                         },
+                        onAddNewStore = { sName, sAddress, sPhone ->
+                            val newSt = com.yourcompany.informalsupermarket.data.StoreRepository.addStore(
+                                com.yourcompany.informalsupermarket.data.Store(0, sName, sAddress, sPhone)
+                            )
+                            viewModel.setStoreDetails(newSt.storeName, newSt.storeAddress, newSt.storePhone)
+                        },
                         serverUrl = ServerConfig.baseUrl,
                         currentLanguage = currentLanguage,
                         isDarkMode = isDarkMode,

@@ -37,6 +37,7 @@ fun SettingsScreen(
     allStores: List<Store> = emptyList(),
     onStoreSelect: (Store) -> Unit = {},
     onStoreInfoSave: (String, String, String) -> Unit = { _, _, _ -> },
+    onAddNewStore: (String, String, String) -> Unit = { _, _, _ -> },
     serverUrl: String = "",
     currentLanguage: String = "English",
     isDarkMode: Boolean = false,
@@ -47,6 +48,7 @@ fun SettingsScreen(
     onBackClick: () -> Unit = {},
     onLogout: () -> Unit = {}
 ) {
+    var showAddNewStoreDialog by remember { mutableStateOf(false) }
     var showProfilePhotoDialog by remember { mutableStateOf(false) }
     var showProfileDialog by remember { mutableStateOf(false) }
     var showNotificationDialog by remember { mutableStateOf(false) }
@@ -533,18 +535,86 @@ fun SettingsScreen(
                 }
             },
             confirmButton = {
-                Button(
-                    onClick = {
-                        onStoreInfoSave(editStoreName, editStoreAddress, editStorePhone)
-                        showStoreInfoDialog = false
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Blue900)
-                ) {
-                    Text("Save Store Info", color = White)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedButton(
+                        onClick = {
+                            showStoreInfoDialog = false
+                            showAddNewStoreDialog = true
+                        },
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Blue900)
+                    ) {
+                        Text("+ New Branch", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    }
+                    Button(
+                        onClick = {
+                            onStoreInfoSave(editStoreName, editStoreAddress, editStorePhone)
+                            showStoreInfoDialog = false
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Blue900)
+                    ) {
+                        Text("Save Store Info", color = White)
+                    }
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showStoreInfoDialog = false }) {
+                    Text("Cancel", color = Gray600)
+                }
+            }
+        )
+    }
+
+    // 3b. Add New Store Branch Dialog
+    if (showAddNewStoreDialog) {
+        var newBranchName by remember { mutableStateOf("") }
+        var newBranchAddress by remember { mutableStateOf("") }
+        var newBranchPhone by remember { mutableStateOf("") }
+
+        AlertDialog(
+            onDismissRequest = { showAddNewStoreDialog = false },
+            title = { Text("Add New Store Branch", fontWeight = FontWeight.Bold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text("Enter the details for your new store branch. It will automatically receive its own isolated database for products, stock, and sales.", fontSize = 12.sp, color = Gray600)
+
+                    OutlinedTextField(
+                        value = newBranchName,
+                        onValueChange = { newBranchName = it },
+                        label = { Text("Store Name (e.g. Midrand Branch)") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = newBranchAddress,
+                        onValueChange = { newBranchAddress = it },
+                        label = { Text("Address (e.g. 550 Main Rd, Midrand)") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = newBranchPhone,
+                        onValueChange = { newBranchPhone = it },
+                        label = { Text("Company Tel (e.g. 011 555 1234)") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val sName = newBranchName.trim().ifBlank { "New Store Branch" }
+                        val sAddr = newBranchAddress.trim().ifBlank { "123 Main Street" }
+                        val sPhone = newBranchPhone.trim().ifBlank { "011-000-0000" }
+                        onAddNewStore(sName, sAddr, sPhone)
+                        showAddNewStoreDialog = false
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Blue900)
+                ) {
+                    Text("Add Store", color = White, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showAddNewStoreDialog = false }) {
                     Text("Cancel", color = Gray600)
                 }
             }

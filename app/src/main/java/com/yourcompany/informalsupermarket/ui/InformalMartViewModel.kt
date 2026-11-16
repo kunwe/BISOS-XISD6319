@@ -60,6 +60,8 @@ class InformalMartViewModel : ViewModel() {
 
     private val storeId: Int get() = StoreRepository.activeStore.value.storeId
 
+    private var appContext: Context? = null
+
     // Isolated per-store local database maps for offline mode
     private val perStoreProducts = mutableMapOf<Int, MutableList<Product>>()
     private val perStoreAlerts = mutableMapOf<Int, MutableList<LowStockAlert>>()
@@ -86,11 +88,13 @@ class InformalMartViewModel : ViewModel() {
     }
 
     fun initProfilePicture(context: Context) {
+        appContext = context.applicationContext
         val prefs = context.getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)
         _profilePictureUri.value = prefs.getString("profile_picture_uri", null)
     }
 
     fun setProfilePicture(context: Context, uri: String?) {
+        appContext = context.applicationContext
         _profilePictureUri.value = uri
         val prefs = context.getSharedPreferences("profile_prefs", Context.MODE_PRIVATE)
         if (uri.isNullOrBlank()) {
@@ -103,11 +107,13 @@ class InformalMartViewModel : ViewModel() {
     }
 
     fun initDarkMode(context: Context) {
+        appContext = context.applicationContext
         val prefs = context.getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
         _isDarkMode.value = prefs.getBoolean("is_dark_mode", false)
     }
 
     fun toggleDarkMode(context: Context, isDark: Boolean) {
+        appContext = context.applicationContext
         _isDarkMode.value = isDark
         val prefs = context.getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("is_dark_mode", isDark).apply()
@@ -121,12 +127,14 @@ class InformalMartViewModel : ViewModel() {
     }
 
     fun initLanguage(context: Context) {
+        appContext = context.applicationContext
         val saved = LanguageManager.getSavedLanguage(context)
         _currentLanguage.value = saved
         LanguageManager.applyLanguage(context, saved)
     }
 
     fun setLanguage(context: Context, languageName: String) {
+        appContext = context.applicationContext
         _currentLanguage.value = languageName
         LanguageManager.applyLanguage(context, languageName)
         _message.value = "Language changed to $languageName"
@@ -135,6 +143,7 @@ class InformalMartViewModel : ViewModel() {
     // ---- Auth & Sync ---------------------------------------------------------------------
 
     fun initAccountRepo(context: Context) {
+        appContext = context.applicationContext
         AccountRepository.init(context)
     }
 
@@ -365,6 +374,7 @@ class InformalMartViewModel : ViewModel() {
                 val currentList = perStoreProducts.getOrPut(activeId) { mutableListOf() }
                 currentList.add(0, newProd)
                 _products.value = currentList.toList()
+                persistStoreData(activeId)
                 _message.value = "$name added to ${_currentStoreName.value}"
             }
         }
@@ -372,6 +382,7 @@ class InformalMartViewModel : ViewModel() {
 
     fun recordSale(productId: Int, quantity: Int, paymentMethod: String) {
         val activeId = storeId
+        val storeName = _currentStoreName.value
         launchApi {
             try {
                 ApiService.recordSale(productId, quantity, paymentMethod, activeId)
@@ -392,20 +403,119 @@ class InformalMartViewModel : ViewModel() {
                         )
                     )
                     _products.value = currentProds.toList()
+
+                    // Real-time update to Sales Report & Transactions
+                    val lineTotal = roundTwoDecimals(p.unitPrice * quantity)
+                    val currentDateStr = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+                    val txnRef = "TXN-" + (10000..99999).random()
+
+                    val newSaleItem = SaleItem(
+                        transactionId = System.currentTimeMillis().toInt(),
+                        transactionRef = txnRef,
+                        date = currentDateStr,
+                        productName = p.name,
+                        quantity = quantity,
+                        unitPrice = p.unitPrice,
+                        total = lineTotal,
+                        paymentMethod = paymentMethod.uppercase(),
+                        storeName = storeName
+                    )
+
+                    val currentReport = _salesReport.value ?: SalesReport(branch = storeName)
+                    val updatedItems = listOf(newSaleItem) + currentReport.items
+                    val newTotalSales = roundTwoDecimals(currentReport.totalSales + lineTotal)
+                    val newTxnCount = currentReport.transactionCount + 1
+                    val newAvg = if (newTxnCount > 0) roundTwoDecimals(newTotalSales / newTxnCount) else 0.0
+
+                    var newCash = currentReport.cashTotal
+                    var newCard = currentReport.cardTotal
+                    var newMobile = currentReport.mobileTotal
+
+                    when (paymentMethod.uppercase()) {
+                        "CARD" -> newCard = roundTwoDecimals(newCard + lineTotal)
+                        "MOBILE" -> newMobile = roundTwoDecimals(newMobile + lineTotal)
+                        else -> newCash = roundTwoDecimals(newCash + lineTotal)
+                    }
+
+                    val updatedReport = currentReport.copy(
+                        totalSales = newTotalSales,
+                        transactionCount = newTxnCount,
+                        averageSale = newAvg,
+                        cashTotal = newCash,
+                        cardTotal = newCard,
+                        mobileTotal = newMobile,
+                        items = updatedItems
+                    )
+
+                    perStoreSales[activeId] = updatedReport
+                    _salesReport.value = updatedReport
+                    persistStoreData(activeId)
                 }
-                _message.value = "Sale recorded in ${_currentStoreName.value}"
+                _message.value = "Sale recorded in $storeName"
             }
         }
     }
 
     fun voidSale(transactionId: Int) {
+        val activeId = storeId
+        val storeName = _currentStoreName.value
         launchApi {
             try {
                 ApiService.voidSale(transactionId)
                 _message.value = "Sale voided & stock restored"
                 loadAll()
             } catch (e: Exception) {
-                _message.value = "Sale voided"
+                val currentReport = _salesReport.value
+                if (currentReport != null) {
+                    val voidedItem = currentReport.items.find { it.transactionId == transactionId }
+                    if (voidedItem != null) {
+                        val updatedItems = currentReport.items.filter { it.transactionId != transactionId }
+                        val newTotalSales = (currentReport.totalSales - voidedItem.total).coerceAtLeast(0.0)
+                        val newTxnCount = (currentReport.transactionCount - 1).coerceAtLeast(0)
+                        val newAvg = if (newTxnCount > 0) roundTwoDecimals(newTotalSales / newTxnCount) else 0.0
+
+                        var newCash = currentReport.cashTotal
+                        var newCard = currentReport.cardTotal
+                        var newMobile = currentReport.mobileTotal
+
+                        when (voidedItem.paymentMethod.uppercase()) {
+                            "CARD" -> newCard = (newCard - voidedItem.total).coerceAtLeast(0.0)
+                            "MOBILE" -> newMobile = (newMobile - voidedItem.total).coerceAtLeast(0.0)
+                            else -> newCash = (newCash - voidedItem.total).coerceAtLeast(0.0)
+                        }
+
+                        val updatedReport = currentReport.copy(
+                            totalSales = roundTwoDecimals(newTotalSales),
+                            transactionCount = newTxnCount,
+                            averageSale = newAvg,
+                            cashTotal = roundTwoDecimals(newCash),
+                            cardTotal = roundTwoDecimals(newCard),
+                            mobileTotal = roundTwoDecimals(newMobile),
+                            items = updatedItems
+                        )
+
+                        // Restore Stock for product
+                        val currentProds = perStoreProducts.getOrPut(activeId) { mutableListOf() }
+                        val idx = currentProds.indexOfFirst { it.name.equals(voidedItem.productName, ignoreCase = true) }
+                        if (idx >= 0) {
+                            val p = currentProds[idx]
+                            val currQty = p.stock?.quantityOnHand ?: 0
+                            currentProds[idx] = p.copy(
+                                stock = Stock(
+                                    quantityOnHand = currQty + voidedItem.quantity,
+                                    minStockLevel = p.stock?.minStockLevel ?: 10,
+                                    maxStockLevel = 999
+                                )
+                            )
+                            _products.value = currentProds.toList()
+                        }
+
+                        perStoreSales[activeId] = updatedReport
+                        _salesReport.value = updatedReport
+                        persistStoreData(activeId)
+                    }
+                }
+                _message.value = "Sale voided & stock restored"
             }
         }
     }
@@ -459,26 +569,44 @@ class InformalMartViewModel : ViewModel() {
         }
     }
 
+    private fun persistStoreData(targetStoreId: Int) {
+        val ctx = appContext ?: return
+        perStoreProducts[targetStoreId]?.let { prods ->
+            PerStoreDatabaseRepository.saveProductsForStore(ctx, targetStoreId, prods)
+        }
+        perStoreSales[targetStoreId]?.let { report ->
+            PerStoreDatabaseRepository.saveSalesReportForStore(ctx, targetStoreId, report)
+        }
+    }
+
     private suspend fun loadAll() {
         val id = storeId
         _products.value = ApiService.getProducts(id)
         _alerts.value = ApiService.getAlerts(id)
         _salesReport.value = ApiService.getSalesReport(id)
+        val ctx = appContext
+        if (ctx != null) {
+            PerStoreDatabaseRepository.saveProductsForStore(ctx, id, _products.value)
+            _salesReport.value?.let { PerStoreDatabaseRepository.saveSalesReportForStore(ctx, id, it) }
+        }
     }
 
     private fun loadOfflineDataForStore(targetStoreId: Int) {
+        val ctx = appContext
         val storeName = _currentStoreName.value
-        val prods = perStoreProducts.getOrPut(targetStoreId) {
-            when (targetStoreId) {
-                2 -> mutableListOf(
+
+        var savedProds: List<Product>? = if (ctx != null) PerStoreDatabaseRepository.getProductsForStore(ctx, targetStoreId) else null
+        if (savedProds == null) {
+            savedProds = when (targetStoreId) {
+                2 -> listOf(
                     Product(201, "Sandton Coffee 250g", "600999001", 65.00, 40.00, 50, 1, 2, Category(1, "Pantry"), Stock(30, 10, 50)),
                     Product(202, "Sandton Mineral Water 1L", "600999002", 15.00, 8.00, 50, 1, 2, Category(2, "Beverages"), Stock(80, 20, 100))
                 )
-                3 -> mutableListOf(
+                3 -> listOf(
                     Product(301, "Pretoria Honey 500g", "600888001", 95.00, 60.00, 50, 1, 3, Category(1, "Pantry"), Stock(12, 10, 50)),
                     Product(302, "Pretoria Tea 100s", "600888002", 45.00, 28.00, 50, 1, 3, Category(2, "Beverages"), Stock(40, 15, 80))
                 )
-                else -> mutableListOf(
+                else -> listOf(
                     Product(1, "Milk 2L", "6001234567890", 24.99, 18.50, 50, 1, 1, Category(1, "Dairy"), Stock(15, 10, 50)),
                     Product(2, "Bread 700g", "6001234567891", 18.50, 12.00, 50, 1, 1, Category(2, "Bakery"), Stock(45, 15, 60)),
                     Product(3, "Sugar 1kg", "6001234567892", 32.00, 22.00, 50, 1, 1, Category(3, "Pantry"), Stock(8, 5, 40)),
@@ -487,35 +615,41 @@ class InformalMartViewModel : ViewModel() {
                     Product(6, "Rice 5kg", "6001234567895", 85.00, 65.00, 50, 1, 1, Category(5, "Grains"), Stock(20, 5, 50))
                 )
             }
+            if (ctx != null) PerStoreDatabaseRepository.saveProductsForStore(ctx, targetStoreId, savedProds)
         }
-        _products.value = prods.toList()
 
-        val alertsList = perStoreAlerts.getOrPut(targetStoreId) {
-            prods.filter { (it.stock?.quantityOnHand ?: 0) < 50 }.map {
-                LowStockAlert(it.id, it.name, it.stock?.quantityOnHand ?: 0, 50, "PENDING")
-            }.toMutableList()
+        perStoreProducts[targetStoreId] = savedProds.toMutableList()
+        _products.value = savedProds
+
+        val alertsList = savedProds.filter { (it.stock?.quantityOnHand ?: 0) < 50 }.map {
+            LowStockAlert(it.id, it.name, it.stock?.quantityOnHand ?: 0, 50, "PENDING")
         }
-        _alerts.value = alertsList.toList()
+        _alerts.value = alertsList
 
-        val report = perStoreSales.getOrPut(targetStoreId) {
-            SalesReport(
+        var savedReport: SalesReport? = if (ctx != null) PerStoreDatabaseRepository.getSalesReportForStore(ctx, targetStoreId) else null
+        if (savedReport == null) {
+            savedReport = SalesReport(
                 date = "March 2026",
                 branch = "$storeName (Offline)",
-                totalSales = prods.sumOf { (it.stock?.quantityOnHand ?: 0) * it.unitPrice * 0.1 },
-                transactionCount = prods.size,
+                totalSales = savedProds.sumOf { (it.stock?.quantityOnHand ?: 0) * it.unitPrice * 0.1 },
+                transactionCount = savedProds.size,
                 averageSale = 150.00,
                 cashTotal = 250.00,
                 cardTotal = 150.00,
                 mobileTotal = 100.00,
-                items = prods.take(3).mapIndexed { idx, p ->
+                items = savedProds.take(3).mapIndexed { idx, p ->
                     SaleItem(idx + 1, "TXN-${1000 + idx}", "2026-03-01", p.name, 2, p.unitPrice, p.unitPrice * 2, "CASH", storeName)
                 }
             )
+            if (ctx != null) PerStoreDatabaseRepository.saveSalesReportForStore(ctx, targetStoreId, savedReport)
         }
-        _salesReport.value = report
+        perStoreSales[targetStoreId] = savedReport
+        _salesReport.value = savedReport
     }
 
     // ---- Helpers ------------------------------------------------------------------------
+
+    private fun roundTwoDecimals(value: Double): Double = (value * 100).toLong() / 100.0
 
     private fun launchApi(showLoading: Boolean = false, block: suspend () -> Unit) {
         viewModelScope.launch {

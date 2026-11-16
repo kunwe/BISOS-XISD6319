@@ -31,54 +31,47 @@ Both applications help informal supermarkets and small retailers manage their da
 
 ## 🎯 Key Mobile & Web Features Added
 
-### 1. Multi-Store Database Isolation & Registration
-- **Strict Per-Store Data Isolation**: Each store branch (*Soweto Supermarket*, *Sandton Branch*, *Pretoria Branch*) maintains its own isolated database state for products, stock levels, low-stock alerts, sales, and reports.
+### 1. Multi-Store Database Isolation & Store Creation
+- **Strict Per-Store Data Isolation**: Each store branch (*Soweto Supermarket*, *Sandton Branch*, *Pretoria Branch*, etc.) maintains its own isolated database state on disk (`store_products_{id}`, `store_sales_{id}`) and online for products, stock levels, low-stock alerts, sales, and reports.
+- **Add New Store Branch in Settings**: Dedicated **`+ New Branch`** button in **Settings ➔ Store Information** opens an Add Store dialog (**Store Name**, **Address**, **Company Tel**), automatically creates a new isolated store database, and switches active management.
 - **Multi-Store Registration**: *"Store Managing Details"* section on Register screen allows:
   - **Join Existing Store**: Dropdown selection of saved database stores.
-  - **Create New Store**: Editable text fields for **Store Name**, **Store Address**, and **Company Tel Number**.
+  - **Create New Store**: Editable text fields creating a new store branch and isolated database upon registration.
 - **Active Store Switcher**: Settings header displays the active store with an interactive dropdown switcher to change managed branches.
-- **Edit Store Information Dialog**: Modal dialog in Settings pre-filled with Store Name, Address, and Contact Phone with database persistence.
 
-### 2. Dual-Mode Account Database (Online & Offline Auto-Sync)
-- **Account Repository**: Persistent account storage recording accounts created both online (MySQL `User` table) and offline (device `SharedPreferences`).
-- **Offline-to-Online Auto-Sync Engine**: Accounts registered offline marked as pending automatically upload to MySQL when the network/ngrok reconnects.
-- **Instant Offline Authentication**: Sign in offline feature using the local account database.
+### 2. Real-Time Sales Report Synchronization & Voiding
+- **Real-Time Report Updates**: Recording a new sale in `recordSale()` automatically deducts product stock, creates a new `SaleItem` with reference ID (`TXN-xxxx`), updates **Total Sales**, **Transaction Count**, **Average Sale**, and payment method totals (**Cash**, **Card**, **Mobile**), and saves the report to disk per `storeId`.
+- **Void & Restore Stock**: Voiding a transaction in `voidSale()` restores stock quantities and recalculates report totals in real-time.
 
-### 3. Stock & Inventory Management
+### 3. Google Sign-In with Mandatory Registration Enforcement
+- **Registration Verification**: Tapping **"Sign in with Google"** or **"Sign up with Google"** verifies if the Google email address is registered.
+- **Automatic Redirection**: If the Google account is NOT registered, the system alerts the user (*"Account is not registered yet. Redirecting to Register..."*) and automatically redirects them to the **Registration Screen (`RegisterScreen.kt`)** to complete store selection and registration.
+
+### 4. Firebase Authentication Integration
+- **Cloud Identity Management**: Configured **Firebase BoM** (`33.9.0`), **Firebase Auth** (`firebase-auth-ktx`), and **Google Services** plugin (`com.google.gms.google-services:4.4.2`).
+- **`FirebaseAuthManager`**: Handles `signInWithEmailAndPassword` and `createUserWithEmailAndPassword`, keeping cloud user sessions synced across Firebase, local `AccountRepository`, and MySQL.
+
+### 5. Profile Picture Management in Settings
+- **Interactive Avatar**: User Avatar on the Settings screen header card opens a **Profile Photo Control** dialog.
+- **Photo Options**:
+  - `📷 Camera / Photo` (Capture or upload custom photo)
+  - `✨ AI Avatar` (Select from avatars)
+  - `🗑️ Remove Profile Photo` (Revert to default account icon)
+- **Persistence**: Saved in `SharedPreferences` (`profile_prefs`) across app restarts.
+
+### 6. Dynamic Full-App Localization (Multi-Language)
+- **4 Languages Supported**: Complete string resources and translations for:
+  - **English** (`res/values/strings.xml`)
+  - **Afrikaans** (`res/values-af/strings.xml`)
+  - **isiZulu** (`res/values-zu/strings.xml`)
+  - **Sesotho** (`res/values-st/strings.xml`)
+- **Instant UI Refresh**: Changing language in Settings immediately updates the app locale and translates all text elements across all screens.
+
+### 7. Stock & Inventory AI Image Management
 - **Clickable Stock Cards**: Tapping any inventory card opens a *"View & Edit Product"* modal dialog to modify Name, Selling Price, Stock Quantity, Threshold, and Barcode.
-- **AI Stock Image Generator**: Dynamically generates real-time photorealistic product images based on product names using Pollinations.ai.
-- **Smart Measurement Parsing**: Intelligently detects and formats units (`kg`, `L`, `ml`, `mg`, `g`, `pack`) into package prompts (e.g. *2L bottle*, *1kg bag*, *700g loaf*).
-- **Image Control Options**:
-  - `✨ Regenerate AI Image` (Generates a new AI product photo with fresh seed)
-  - `📷 Replace Photo` (Captures/uploads custom photo with camera)
-  - `🗑️ Remove Image` (Reverts to clean default `ic_store` icon on soft blue background)
-- **Barcode Scanner & Search**: TopBar barcode scan button and search bar filtering inventory by name or barcode (e.g., `6001234567890`).
-- **Camera Item Photo Capture**: Camera photo capture launcher on Add Product Screen.
-
-### 4. Real-Time Sales & Automatic Stock Deduction / Restoration
-- **Record New Sale**: Select product, quantity, and payment method (`CASH`, `CARD`, `MOBILE`). Automatically deducts sold items from the MySQL `Stock` table in real-time.
-- **Void / Delete Sale**: Voiding a transaction in Recent Transactions automatically restores sold item quantities back into available stock.
-- **Delete Product**: Option to delete product from inventory with confirmation dialog.
-
-### 5. Low Stock Alerts (< 50 Threshold)
-- **Low Stock Threshold (< 50)**: Automatically flags any product with quantity less than 50 as Low Stock on Dashboard, Alert Dialog, and Stock Screen.
-
-### 6. Sales Report Dashboard
-- **Period Tabs**: Daily, Weekly, Monthly (Default), Custom Range.
-- **Export Actions**: Export PDF (Red button `#D32F2F`) and Export CSV (Green button `#2E7D32`).
-- **Filter Controls**: From Date & To Date pickers, Store selector, Payment Method selector.
-- **Key Metrics Cards**: Total Sales, Transaction Count, Average Transaction.
-- **Payment Method Breakdown Cards**: CASH, CARD, MOBILE totals with custom icons.
-- **Detailed Transaction Table**: Columns for TXN ID, Date, Product, Qty, Unit Price, Total, Store, and Payment (color-coded pill badges for Cash, Card, Mobile).
-
-### 7. App Theme & Localization
-- **Official BISOS Branding**: Applied official dark navy (`#0D2C54`) and light blue (`#1E88E5`) brand emblem and full logo on Login, Register, and Launcher Icon.
-- **True Light & Dark Theme**: Dynamic Light/Dark Mode toggle in Settings. In Dark Mode, screen background switches to `#12181F`, card surfaces to `#1E2733`, and all words/text switch to pure white (`#FFFFFF`).
-- **Multi-Language Localization**: Dynamic language switching supporting:
-  - **English** (Default)
-  - **Afrikaans** (`res/values-af`)
-  - **isiZulu** (`res/values-zu`)
-  - **Sesotho** (`res/values-st`)
+- **AI Stock Image Generator**: Dynamically generates real-time photorealistic product images based on product names using Pollinations.ai API with smart measurement parsing (`kg`, `L`, `ml`, `mg`, `g`, `pack`).
+- **Image Controls**: `✨ Regenerate AI Image`, `📷 Replace Photo`, and `🗑️ Remove Image`.
+- **Barcode Scanner & Search**: Barcode scan button and search bar filtering inventory by name or barcode (e.g., `6001234567890`).
 
 ---
 
@@ -100,7 +93,8 @@ Both applications help informal supermarkets and small retailers manage their da
 | Platform | Native Android |
 | Language | Kotlin |
 | UI Framework | Jetpack Compose (Material 3) |
-| Async / Image | Kotlin Coroutines, Flow, Coil |
+| Cloud & Auth | Firebase Auth (`firebase-auth-ktx`), Google Services |
+| Async & Image | Kotlin Coroutines, Flow, Coil |
 | Network | HttpURLConnection, Gson |
 
 ---
@@ -110,27 +104,19 @@ Both applications help informal supermarkets and small retailers manage their da
 ```
 InformalSupermarket/
 ├── all_updates.txt                      # Integration documentation for website & app link
+├── Readme.md                            # Comprehensive system documentation
 ├── app/
+│   ├── google-services.json             # Firebase configuration
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── AndroidManifest.xml
 │   │   │   ├── java/com/yourcompany/informalsupermarket/
-│   │   │   │   ├── data/                 # Account, Store, Product, Sales, Alerts models & DAOs
-│   │   │   │   ├── network/              # ApiClient, ApiService, ServerConfig
+│   │   │   │   ├── data/                 # Account, Store, Product, Sales, PerStoreDatabase repositories
+│   │   │   │   ├── network/              # ApiClient, ApiService, FirebaseAuthManager, ServerConfig
 │   │   │   │   ├── ui/                   # InformalMartApp, InformalMartViewModel, screens, theme
 │   │   │   │   └── util/                 # AiImageGenerator, LanguageManager
 │   │   │   └── res/                      # Drawables, values (English, af, zu, st)
 ├── bisos-php/                           # PHP Backend API and Web Application
-│   ├── api/
-│   │   ├── alerts.php
-│   │   ├── auth.php
-│   │   ├── db.php
-│   │   ├── index.php
-│   │   ├── sales.php
-│   │   └── stocks.php
-│   └── database/
-│       ├── schema.sql
-│       └── seed.sql
 ```
 
 ---

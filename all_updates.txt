@@ -7,80 +7,73 @@ App Package:    com.example.informalsupermarket
 App Name:       Informal Mart (BISOS Mobile)
 ================================================================================
 
-1. SYSTEM & BRANDING UPDATES
+1. REAL-TIME SALES REPORT UPDATES & VOIDING
 --------------------------------------------------------------------------------
-- Official BISOS Branding: Applied official dark navy (#0D2C54) and light blue
-  (#1E88E5) brand emblem and full logo on Login, Register, and Launcher Icon.
-- True Light & Dark Theme: Dynamic Light/Dark Mode toggle in Settings.
-  In Dark Mode, screen background switches to #12181F, card surfaces to #1E2733,
-  and all words/text switch to pure white (#FFFFFF).
-- Multi-Language Localization: Dynamic language switching supporting:
+- Real-Time Sales Report Calculations: Recording a sale in recordSale()
+  deducts stock, creates a new SaleItem with reference ID (TXN-xxxx), and
+  instantly updates Total Sales, Transaction Count, Average Sale, and payment
+  breakdowns (CASH, CARD, MOBILE) in real-time.
+- Sale Voiding & Stock Restoration: Voiding a transaction in voidSale()
+  automatically restores stock quantities and recalculates report totals.
+
+2. MULTI-STORE DATABASE ISOLATION & STORE CREATION
+--------------------------------------------------------------------------------
+- Strict Per-Store Disk Database: Each store branch (Soweto Supermarket,
+  Sandton Branch, Pretoria Branch) maintains its own isolated database state
+  on disk (store_products_{id}, store_sales_{id}) and online for products,
+  stock levels, low-stock alerts, sales, and reports.
+- Add New Store Branch in Settings: Dedicated "+ New Branch" button in
+  Settings ➔ Store Information opens an Add Store dialog (Store Name,
+  Address, Company Tel), creates a new store branch, initializes an isolated
+  database, and sets it as active.
+- Multi-Store Registration: "Store Managing Details" section on Register screen:
+  * Join Existing Store (Dropdown selection of saved database stores).
+  * Create New Store (Editable text fields for Store Name, Address, Company Tel).
+- Active Store Switcher: Settings header displays active store with an
+  interactive dropdown switcher to change managed branches.
+
+3. GOOGLE SIGN-IN & MANDATORY REGISTRATION REDIRECTION
+--------------------------------------------------------------------------------
+- Registration Verification: Tapping "Sign in with Google" or "Sign up with Google"
+  checks if the Google email is registered.
+- Automatic Redirection: If un-registered, alerts user ("Account is not
+  registered yet. Redirecting to Register...") and automatically redirects
+  them to RegisterScreen.kt to complete store setup.
+
+4. FIREBASE AUTHENTICATION INTEGRATION
+--------------------------------------------------------------------------------
+- Cloud Identity Management: Configured Firebase BoM (33.9.0), Firebase Auth
+  (firebase-auth-ktx), and Google Services plugin (com.google.gms.google-services:4.4.2).
+- FirebaseAuthManager: Handles signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  and user session management across Firebase, local storage, and MySQL.
+
+5. PROFILE PICTURE MANAGEMENT IN SETTINGS
+--------------------------------------------------------------------------------
+- Interactive Avatar: Tapping user avatar on Settings screen opens Profile Photo dialog.
+- Photo Options: Camera/photo upload, AI avatar picker, or photo removal with
+  SharedPreferences (profile_prefs) persistence across restarts.
+
+6. FULL-APP MULTI-LANGUAGE LOCALIZATION
+--------------------------------------------------------------------------------
+- 4 Languages Supported: Complete string resources and translations for:
   * English (Default)
   * Afrikaans (res/values-af)
   * isiZulu (res/values-zu)
   * Sesotho (res/values-st)
-- Settings & Profile Picture: Custom profile photo upload/camera capture, AI
-  avatar selector, photo removal, and SharedPreferences persistence.
+- Instant Locale Refresh: Changing language in Settings immediately updates app
+  locale and translates all text elements across all screens.
 
-2. MULTI-STORE DATABASE ISOLATION & REGISTRATION
+7. STOCK & INVENTORY MANAGEMENT & AI IMAGE GENERATOR
 --------------------------------------------------------------------------------
-- Strict Per-Store Data Isolation: Each store branch (Soweto Supermarket,
-  Sandton Branch, Pretoria Branch) maintains its own isolated database state
-  for products, stock levels, low-stock alerts, sales, and reports.
-- Multi-Store Registration: "Store Managing Details" section on Register screen:
-  * Join Existing Store (Dropdown selection of saved database stores).
-  * Create New Store (Editable text fields for Store Name, Address, Company Tel).
-- Active Store Switcher: Settings header displays the active store with an
-  interactive dropdown switcher to change managed branches.
-- Edit Store Information Dialog: Modal dialog in Settings pre-filled with
-  Store Name, Address, and Contact Phone with database persistence.
-
-3. DUAL-MODE ACCOUNT DATABASE (ONLINE & OFFLINE AUTO-SYNC)
---------------------------------------------------------------------------------
-- Account Repository: Persistent account storage recording accounts created
-  both online (MySQL User table) and offline (device SharedPreferences).
-- Offline-to-Online Auto-Sync Engine: Accounts registered offline marked with
-  pending status automatically upload to MySQL when network/ngrok reconnects.
-- Instant Offline Authentication: Sign in offline feature using local account database.
-
-4. STOCK & INVENTORY MANAGEMENT
---------------------------------------------------------------------------------
-- Clickable Stock Cards: Tapping any inventory card opens a "View & Edit Product"
-  modal dialog to modify Name, Selling Price, Stock Quantity, Threshold, and Barcode.
-- AI Stock Image Generator (Pollinations.ai): Automatically generates real-time
-  photorealistic product images based on product names.
-- Smart Measurement Parsing: Intelligently detects and formats units (kg, L,
-  ml, mg, g, pack) into package prompts (e.g. 2L bottle, 1kg bag, 700g loaf).
+- Clickable Stock Cards: Tapping any card opens "View & Edit Product" modal
+  dialog to modify Name, Price, Stock Quantity, Threshold, and Barcode.
+- AI Stock Image Generator (Pollinations.ai): Generates real-time product images
+  based on product names with smart measurement parsing (kg, L, ml, mg, g, pack).
 - Image Control Options:
-  * ✨ Regenerate AI Image (Generates a new AI product photo with fresh seed)
-  * 📷 Replace Photo (Captures/uploads custom photo)
-  * 🗑️ Remove Image (Reverts to clean default ic_store icon on #E3F2FD card)
-- Barcode Scanner & Search: TopBar barcode scan button and search bar filtering
-  inventory by name or barcode (e.g. 6001234567890).
-- Camera Item Photo Capture: Camera photo capture launcher on Add Product Screen.
-
-5. REAL-TIME SALES & AUTOMATIC STOCK DEDUCTION / RESTORATION
---------------------------------------------------------------------------------
-- Record New Sale: Select product, quantity, payment method (CASH, CARD, MOBILE).
-  Automatically deducts sold items from MySQL Stock table in real-time.
-- Void / Delete Sale: Voiding a transaction in Recent Transactions automatically
-  restores sold item quantities back into available stock.
-- Delete Product: Option to delete product from inventory with confirmation dialog.
-
-6. LOW STOCK ALERTS (< 50 THRESHOLD)
---------------------------------------------------------------------------------
-- Low Stock Threshold (< 50): Automatically flags any product with quantity
-  less than 50 as Low Stock on Dashboard, Alert Dialog, and Stock Screen.
-
-7. SALES REPORT DASHBOARD
---------------------------------------------------------------------------------
-- Period Tabs: Daily, Weekly, Monthly (Default), Custom Range.
-- Export Actions: Export PDF (Red button #D32F2F) and Export CSV (Green button #2E7D32).
-- Filter Controls: From Date & To Date pickers, Store selector, Payment Method selector.
-- Key Metrics Cards: Total Sales, Transaction Count, Average Transaction.
-- Payment Method Breakdown Cards: CASH, CARD, MOBILE totals with custom icons.
-- Detailed Transaction Table: Columns for TXN ID, Date, Product, Qty, Unit Price,
-  Total, Store, and Payment (color-coded pill badges for Cash, Card, Mobile).
+  * ✨ Regenerate AI Image
+  * 📷 Replace Photo (Camera capture/upload)
+  * 🗑️ Remove Image (Reverts to clean ic_store icon)
+- Barcode Scanner & Search: Search bar filtering inventory by name or barcode.
 
 ================================================================================
 8. PHP BACKEND API ENDPOINTS REFERENCE (http://localhost/bisos-php/api)

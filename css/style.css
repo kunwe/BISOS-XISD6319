@@ -125,6 +125,21 @@ body {
 
 .user-name { font-weight: 500; font-size: 0.9rem; }
 
+.nav-store-select {
+    padding: 0.4rem 0.7rem;
+    border: 2px solid #E0E0E0;
+    border-radius: var(--border-radius);
+    font-size: 0.85rem;
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    background: white;
+    cursor: pointer;
+    outline: none;
+    max-width: 200px;
+}
+
+.nav-store-select:focus { border-color: var(--primary-light); }
+
 .logout-btn {
     background: none;
     border: none;

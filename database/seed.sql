@@ -14,16 +14,16 @@ INSERT INTO User (store_id, role_id, username, email, password_hash, first_name,
     (2, 2, 'sdlamini', 'sarah.d@bisos.co.za', '$2b$10$placeholder_hash', 'Sarah', 'Dlamini', '011-234-5678');
 
 INSERT INTO Product (store_id, name, description, category, barcode, cost_price, selling_price, reorder_level, is_perishable) VALUES
-    (1, 'Milk 2L', 'Fresh full cream milk 2L', 'Dairy', '6001234567890', 18.50, 24.99, 50, TRUE),
-    (1, 'Bread 700g', 'White bread 700g', 'Bakery', '6001234567891', 12.00, 18.50, 50, TRUE),
-    (1, 'Sugar 1kg', 'White sugar 1kg', 'Pantry', '6001234567892', 22.00, 32.00, 50, FALSE),
-    (1, 'Cooking Oil 750ml', 'Sunflower oil 750ml', 'Pantry', '6001234567893', 45.00, 58.99, 50, FALSE),
-    (1, 'Chicken 1kg', 'Fresh chicken portions 1kg', 'Meat', '6001234567894', 55.00, 72.99, 50, TRUE),
-    (1, 'Rice 5kg', 'White rice 5kg', 'Grains', '6001234567895', 65.00, 85.00, 50, FALSE),
-    (1, 'Pasta 500g', 'Spaghetti 500g', 'Pantry', '6001234567896', 12.00, 16.99, 50, FALSE),
-    (1, 'Canned Beans 410g', 'Baked beans 410g', 'Canned Goods', '6001234567897', 8.50, 12.99, 50, FALSE),
-    (1, 'Maize Meal 5kg', 'White maize meal 5kg', 'Grains', '6001234567898', 35.00, 48.99, 50, FALSE),
-    (1, 'Eggs 30-pack', 'Large eggs 30-pack', 'Dairy', '6001234567899', 42.00, 56.50, 50, TRUE);
+    (1, 'Milk 2L', 'Fresh full cream milk 2L', 'Dairy', '6001234567890', 18.50, 24.99, 20, TRUE),
+    (1, 'Bread 700g', 'White bread 700g', 'Bakery', '6001234567891', 12.00, 18.50, 10, TRUE),
+    (1, 'Sugar 1kg', 'White sugar 1kg', 'Pantry', '6001234567892', 22.00, 32.00, 15, FALSE),
+    (1, 'Cooking Oil 750ml', 'Sunflower oil 750ml', 'Pantry', '6001234567893', 45.00, 58.99, 20, FALSE),
+    (1, 'Chicken 1kg', 'Fresh chicken portions 1kg', 'Meat', '6001234567894', 55.00, 72.99, 10, TRUE),
+    (1, 'Rice 5kg', 'White rice 5kg', 'Grains', '6001234567895', 65.00, 85.00, 5, FALSE),
+    (1, 'Pasta 500g', 'Spaghetti 500g', 'Pantry', '6001234567896', 12.00, 16.99, 20, FALSE),
+    (1, 'Canned Beans 410g', 'Baked beans 410g', 'Canned Goods', '6001234567897', 8.50, 12.99, 30, FALSE),
+    (1, 'Maize Meal 5kg', 'White maize meal 5kg', 'Grains', '6001234567898', 35.00, 48.99, 10, FALSE),
+    (1, 'Eggs 30-pack', 'Large eggs 30-pack', 'Dairy', '6001234567899', 42.00, 56.50, 15, TRUE);
 
 INSERT INTO Stock (product_id, quantity, minimum_level, maximum_level, location_code) VALUES
     (1, 15, 10, 50, 'A-01'), (2, 45, 15, 60, 'A-02'), (3, 8, 5, 40, 'B-01'),

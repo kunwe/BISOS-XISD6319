@@ -2,9 +2,10 @@
 require_once __DIR__ . '/config/config.php';
 require_login();
 
-$pageTitle  = 'Products';
-$activePage = 'products';
-$extraCss   = ['css/stocks.css'];
+$pageTitle   = 'Products';
+$activePage  = 'products';
+$extraCss    = ['css/stocks.css'];
+$pageScript  = 'js/products.js';
 include __DIR__ . '/includes/header.php';
 ?>
 <main role="main">
@@ -26,14 +27,11 @@ include __DIR__ . '/includes/header.php';
                 <input type="search" id="searchInput" placeholder="Search products, barcodes...">
             </div>
             <div class="table-actions">
+                <select id="storeFilter">
+                    <option value="">All Stores</option>
+                </select>
                 <select id="categoryFilter">
                     <option value="">All Categories</option>
-                    <option value="Dairy">Dairy</option>
-                    <option value="Bakery">Bakery</option>
-                    <option value="Pantry">Pantry</option>
-                    <option value="Meat">Meat</option>
-                    <option value="Grains">Grains</option>
-                    <option value="Canned Goods">Canned Goods</option>
                 </select>
             </div>
         </div>
@@ -47,27 +45,85 @@ include __DIR__ . '/includes/header.php';
                     <th>Cost Price</th>
                     <th>Selling Price</th>
                     <th>Margin</th>
+                    <th>Stock</th>
                     <th>Perishable</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="productsTableBody">
-                <tr><td>Milk 2L</td><td>Dairy</td><td><code>6001234567890</code></td><td>R18.50</td><td>R24.99</td><td style="color:var(--success)">35.1%</td><td><span class="status-badge status-warning">Yes</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Bread 700g</td><td>Bakery</td><td><code>6001234567891</code></td><td>R12.00</td><td>R18.50</td><td style="color:var(--success)">54.2%</td><td><span class="status-badge status-warning">Yes</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Sugar 1kg</td><td>Pantry</td><td><code>6001234567892</code></td><td>R22.00</td><td>R32.00</td><td style="color:var(--success)">45.5%</td><td><span class="status-badge status-ok">No</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Cooking Oil 750ml</td><td>Pantry</td><td><code>6001234567893</code></td><td>R45.00</td><td>R58.99</td><td style="color:var(--success)">31.1%</td><td><span class="status-badge status-ok">No</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Chicken 1kg</td><td>Meat</td><td><code>6001234567894</code></td><td>R55.00</td><td>R72.99</td><td style="color:var(--success)">32.7%</td><td><span class="status-badge status-warning">Yes</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Rice 5kg</td><td>Grains</td><td><code>6001234567895</code></td><td>R65.00</td><td>R85.00</td><td style="color:var(--success)">30.8%</td><td><span class="status-badge status-ok">No</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Eggs 30-pack</td><td>Dairy</td><td><code>6001234567899</code></td><td>R42.00</td><td>R56.50</td><td style="color:var(--success)">34.5%</td><td><span class="status-badge status-warning">Yes</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Maize Meal 5kg</td><td>Grains</td><td><code>6001234567898</code></td><td>R35.00</td><td>R48.99</td><td style="color:var(--success)">40.0%</td><td><span class="status-badge status-ok">No</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Pasta 500g</td><td>Pantry</td><td><code>6001234567896</code></td><td>R12.00</td><td>R16.99</td><td style="color:var(--success)">41.6%</td><td><span class="status-badge status-ok">No</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
-                <tr><td>Canned Beans 410g</td><td>Canned Goods</td><td><code>6001234567897</code></td><td>R8.50</td><td>R12.99</td><td style="color:var(--success)">52.8%</td><td><span class="status-badge status-ok">No</span></td><td><div style="display:flex;gap:0.4rem"><button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></div></td></tr>
+                <tr><td colspan="9" style="text-align:center;padding:2rem"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
             </tbody>
         </table>
         <div class="pagination">
-            <span>Showing 1–10 of 10 products</span>
-            <div class="pagination-controls"><button class="page-btn active">1</button></div>
+            <span id="paginationInfo">Loading...</span>
         </div>
     </div>
 </main>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modalTitle">Add New Product</h2>
+            <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+        <form id="productForm">
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label for="fieldName">Product Name *</label>
+                    <input type="text" id="fieldName" required>
+                </div>
+                <div class="form-group">
+                    <label for="fieldCategory">Category *</label>
+                    <select id="fieldCategory" required>
+                        <option value="">Select category</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Bakery">Bakery</option>
+                        <option value="Pantry">Pantry</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Canned Goods">Canned Goods</option>
+                        <option value="Produce">Produce</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fieldBarcode">Barcode <span style="font-weight:400;color:var(--text-secondary)">(leave blank to auto-generate)</span></label>
+                    <input type="text" id="fieldBarcode" placeholder="Auto-generated if empty">
+                </div>
+                <div class="form-group">
+                    <label for="fieldCost">Cost Price (R) *</label>
+                    <input type="number" id="fieldCost" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="fieldSelling">Selling Price (R) *</label>
+                    <input type="number" id="fieldSelling" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="fieldReorder">Reorder Level *</label>
+                    <input type="number" id="fieldReorder" min="0" value="10" required>
+                </div>
+                <div class="form-group" id="openingStockGroup">
+                    <label for="fieldQuantity">Opening Stock Qty *</label>
+                    <input type="number" id="fieldQuantity" min="0" value="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="fieldLocation">Location Code</label>
+                    <input type="text" id="fieldLocation" placeholder="e.g. A-01">
+                </div>
+                <div class="form-group">
+                    <label for="fieldPerishable">Perishable</label>
+                    <select id="fieldPerishable">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="modalCancel">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <?php include __DIR__ . '/includes/footer.php'; ?>

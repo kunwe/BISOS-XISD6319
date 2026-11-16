@@ -1,0 +1,41 @@
+/* sales.css */
+
+.pos-catalog .table-toolbar,
+.pos-catalog .pos-toolbar { display:flex; gap:var(--spacing-sm); flex-wrap:wrap; align-items:center; }
+
+.pos-toolbar .search-bar { flex:1; max-width:none; }
+
+.product-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:var(--spacing-md);
+    margin-top:var(--spacing-md);
+    max-height:60vh;
+    overflow-y:auto;
+    padding-right:4px;
+}
+
+.product-card {
+    background:var(--background);
+    border:2px solid transparent;
+    border-radius:var(--border-radius);
+    padding:var(--spacing-md);
+    cursor:pointer;
+    transition:all .2s;
+    display:flex;
+    flex-direction:column;
+    gap:.3rem;
+    position:relative;
+}
+
+.product-card:hover { border-color:var(--primary-light); transform:translateY(-2px); }
+
+.product-card.disabled { opacity:.45; cursor:not-allowed; transform:none; }
+
+.product-card .pc-name { font-weight:600; font-size:.9rem; }
+.product-card .pc-price { font-weight:700; color:var(--success); font-size:1.05rem; }
+.product-card .pc-stock { font-size:.75rem; color:var(--text-secondary); }
+.product-card .pc-status { font-size:.7rem; font-weight:700; margin-left:auto; padding:.15rem .5rem; border-radius:20px; }
+.product-card .pc-status.OK { background:rgba(39,174,96,.12); color:var(--success); }
+.product-card .pc-status.LOW { background:rgba(243,156,18,.12); color:var(--warning); }
+.product-card .pc-status.OUT { background:rgba(231,76,60,.12); color:var(--danger); }

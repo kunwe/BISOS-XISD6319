@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/config/config.php';
 redirect_if_logged_in();
@@ -27,7 +28,6 @@ redirect_if_logged_in();
         .feature-card i { font-size:2rem; margin-bottom:0.75rem; opacity:0.9; }
         .feature-card h3 { font-size:1rem; margin-bottom:0.4rem; }
         .feature-card p { font-size:0.85rem; opacity:0.75; }
-        .host-badge { margin-top: 1rem; font-size: 0.8rem; opacity: 0.9; }
         @media(max-width:480px) { .landing h1 { font-size:1.8rem; } .landing-actions { flex-direction:column; align-items:center; } }
     </style>
 </head>
@@ -41,8 +41,6 @@ redirect_if_logged_in();
             <a href="login.php" class="btn-landing-primary"><i class="fas fa-sign-in-alt"></i> Sign In</a>
             <a href="register.php" class="btn-landing-outline"><i class="fas fa-user-plus"></i> Create Account</a>
         </div>
-
-        <div class="host-badge">Public host: <?= e(APP_URL) ?></div>
 
         <div class="features">
             <div class="feature-card"><i class="fas fa-boxes"></i><h3>Stock Management</h3><p>Real-time inventory tracking across all store branches</p></div>

@@ -1,44 +1,149 @@
-import { showToast, formatCurrency } from './app.js';
+import { showToast, formatCurrency, getSelectedStore, setSelectedStore } from './app.js?v=2';
 
-const MOCK_SALES = [
-    { id: 'A-4521', date: '2026-03-01', product: 'Milk 2L', qty: 12, price: 24.99, total: 299.88, payment: 'Cash', store: 'Soweto' },
-    { id: 'A-4522', date: '2026-03-01', product: 'Bread 700g', qty: 8, price: 18.50, total: 148.00, payment: 'Card', store: 'Soweto' },
-    { id: 'A-4523', date: '2026-03-02', product: 'Sugar 1kg', qty: 5, price: 32.00, total: 160.00, payment: 'Cash', store: 'Soweto' },
-    { id: 'A-4524', date: '2026-03-02', product: 'Cooking Oil', qty: 3, price: 58.99, total: 176.97, payment: 'Card', store: 'Soweto' }
-];
+const API = 'api/sales.php?action=';
 
 class SalesReport {
     constructor() {
-        this.sales = [...MOCK_SALES];
-        this.filtered = [...this.sales];
+        this.sales = [];
+        this.filtered = [];
+        this.storeId = null;
+        this.init();
+    }
+
+    async init() {
+        await this.loadStores();
+        this.storeId = getSelectedStore();
+        const sel = document.getElementById('storeFilter');
+        if (sel && this.storeId) sel.value = String(this.storeId);
+        await this.loadSales();
+        this.bind();
+    }
+
+    bind() {
+        document.getElementById('storeFilter').addEventListener('change', (e) => {
+            this.storeId = e.target.value ? parseInt(e.target.value) : null;
+            setSelectedStore(this.storeId);
+            this.loadSales();
+        });
+        document.getElementById('dateFrom').addEventListener('change', () => this.loadSales());
+        document.getElementById('dateTo').addEventListener('change', () => this.loadSales());
+        document.getElementById('paymentFilter').addEventListener('change', () => this.applyFilters());
+    }
+
+    async loadStores() {
+        try {
+            const res = await fetch(API + 'stores');
+            const json = await res.json();
+            const sel = document.getElementById('storeFilter');
+            const current = sel.value;
+            sel.innerHTML = '<option value="">All Stores</option>' +
+                json.data.map(s => `<option value="${s.store_id}">${s.name}</option>`).join('');
+            if ([...sel.options].some(o => o.value === current)) sel.value = current;
+            // Default to the user's store if none chosen.
+            if (!sel.value && json.data.length) {
+                // keep All Stores as default selection
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('Failed to load stores', 'error');
+        }
+    }
+
+    async loadSales() {
+        const from = document.getElementById('dateFrom').value || '';
+        const to = document.getElementById('dateTo').value || '';
+
+        // Build query. When All Stores, fetch each store and merge.
+        const storeSelect = document.getElementById('storeFilter');
+        const storeIds = storeSelect.value
+            ? [parseInt(storeSelect.value)]
+            : [...storeSelect.options].filter(o => o.value).map(o => parseInt(o.value));
+
+        if (storeIds.length === 0) {
+            // No stores available.
+            this.sales = [];
+            this.applyFilters();
+            return;
+        }
+
+        try {
+            const results = await Promise.all(storeIds.map(async (sid) => {
+                let url = API + 'report&store_id=' + sid;
+                if (from) url += '&from=' + encodeURIComponent(from);
+                if (to) url += '&to=' + encodeURIComponent(to);
+                const res = await fetch(url);
+                const json = await res.json();
+                return (json.data || []);
+            }));
+            this.sales = [].concat(...results).sort((a, b) =>
+                new Date(b.transaction_date) - new Date(a.transaction_date)
+            );
+            this.applyFilters();
+        } catch (err) {
+            console.error(err);
+            showToast('Failed to load sales data', 'error');
+        }
+    }
+
+    applyFilters() {
+        const pay = document.getElementById('paymentFilter').value;
+        this.filtered = this.sales.filter(s => !pay || s.payment_method === pay.toUpperCase());
         this.render();
     }
 
-    get totalSales() { return this.filtered.reduce((sum, s) => sum + s.total, 0); }
+    get totalSales() {
+        return this.filtered.reduce((sum, s) => sum + parseFloat(s.total_price), 0);
+    }
 
     render() {
-        document.getElementById('totalSales').textContent = formatCurrency(this.totalSales);
-        document.getElementById('totalTransactions').textContent = this.filtered.length;
-        document.getElementById('avgTransaction').textContent = formatCurrency(this.totalSales / (this.filtered.length || 1));
-        
-        const cash = this.filtered.filter(s => s.payment === 'Cash').reduce((sum, s) => sum + s.total, 0);
-        document.getElementById('cashSales').textContent = formatCurrency(cash);
+        const totalSales = this.totalSales;
+        const txIds = new Set(this.filtered.map(s => s.transaction_id));
+        const txnCount = txIds.size;
+        const avg = txnCount ? totalSales / txnCount : 0;
 
-        document.getElementById('salesTableBody').innerHTML = this.filtered.map(s => `
-            <tr>
-                <td><code>${s.id}</code></td>
-                <td>${s.date}</td>
-                <td>${s.product}</td>
-                <td>${s.qty}</td>
-                <td>${formatCurrency(s.price)}</td>
-                <td><strong>${formatCurrency(s.total)}</strong></td>
-                <td><span class="status-badge status-ok">${s.payment}</span></td>
-                <td>${s.store}</td>
-            </tr>
-        `).join('');
-        
-        document.getElementById('tableTotalSales').textContent = formatCurrency(this.totalSales);
+        document.getElementById('totalSales').textContent = formatCurrency(totalSales);
+        document.getElementById('totalTransactions').textContent = txnCount;
+        document.getElementById('avgTransaction').textContent = formatCurrency(avg);
+
+        const byPayment = (method) => this.filtered
+            .filter(s => s.payment_method === method)
+            .reduce((sum, s) => sum + parseFloat(s.total_price), 0);
+
+        document.getElementById('cashSales').textContent = formatCurrency(byPayment('CASH'));
+        document.getElementById('cardSales').textContent = formatCurrency(byPayment('CARD'));
+        document.getElementById('mobileSales').textContent = formatCurrency(byPayment('MOBILE'));
+
+        // Update header labels.
+        const from = document.getElementById('dateFrom').value;
+        const to = document.getElementById('dateTo').value;
+        const periodEl = document.getElementById('reportPeriod');
+        if (periodEl) periodEl.textContent = (from && to) ? `${from} to ${to}` : 'Current period';
+        const storeEl = document.getElementById('reportStore');
+        if (storeEl) {
+            const sel = document.getElementById('storeFilter');
+            storeEl.textContent = sel.value ? sel.options[sel.selectedIndex].text : 'All Stores';
+        }
+
+        const tbody = document.getElementById('salesTableBody');
+        if (this.filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-secondary);padding:2rem">No sales in this period.</td></tr>';
+        } else {
+            tbody.innerHTML = this.filtered.map(s => `
+                <tr>
+                    <td><code>${s.transaction_ref}</code></td>
+                    <td>${s.transaction_date}</td>
+                    <td>${s.product_name}</td>
+                    <td>${s.quantity}</td>
+                    <td>${formatCurrency(s.unit_price)}</td>
+                    <td><strong>${formatCurrency(s.total_price)}</strong></td>
+                    <td><span class="status-badge status-ok">${s.payment_method}</span></td>
+                    <td>${s.store_name}</td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('tableTotalSales').textContent = formatCurrency(totalSales);
     }
 }
 
-new SalesReport();
+window.salesReport = new SalesReport();

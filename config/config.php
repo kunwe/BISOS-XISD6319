@@ -1,30 +1,10 @@
 <?php
 // config/config.php
-
-if (session_status() === PHP_SESSION_NONE) {
-    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-        || (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on');
-
-    session_set_cookie_params([
-        'lifetime' => 3600,
-        'path' => '/',
-        'domain' => '',
-        'secure' => $isHttps,
-        'httponly' => true,
-        'samesite' => 'Lax',
-    ]);
-    session_start();
-}
+session_start();
 
 define('APP_NAME', 'BISOS');
 define('DEMO_EMAIL', 'demo@bisos.co.za');
 define('DEMO_PASSWORD', 'Demo@123');
-
-$hostHeader = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'] ?? 'localhost';
-$hostHeader = explode(',', $hostHeader)[0];
-$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https' : 'http';
-define('APP_URL', $scheme . '://' . trim($hostHeader));
 
 // Include the database connection
 require_once __DIR__ . '/db.php';

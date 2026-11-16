@@ -11,38 +11,50 @@ include __DIR__ . '/includes/header.php';
 <main role="main" aria-label="Dashboard Content">
     <h1 class="sr-only">Dashboard Overview</h1>
 
+    <div class="page-header">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Overview of your stores &mdash; <span id="dashStoreName">All Stores</span></p>
+        </div>
+        <div class="header-actions">
+            <select id="storeSelect" aria-label="Select store">
+                <option value="">All Stores</option>
+            </select>
+        </div>
+    </div>
+
     <section class="dashboard-summary" aria-label="Key metrics overview">
         <div class="summary-grid">
             <article class="summary-card card-store">
                 <div class="card-icon"><i class="fas fa-store"></i></div>
                 <div class="card-content">
                     <h2>Total Stores</h2>
-                    <p class="card-value">3</p>
-                    <span class="card-change positive">+1 this month</span>
+                    <p class="card-value" id="statStores">-</p>
+                    <span class="card-change positive" id="statStoresSub">&nbsp;</span>
                 </div>
             </article>
             <article class="summary-card card-products">
                 <div class="card-icon"><i class="fas fa-cube"></i></div>
                 <div class="card-content">
                     <h2>Total Products</h2>
-                    <p class="card-value">1,247</p>
-                    <span class="card-change positive">+12 today</span>
+                    <p class="card-value" id="statProducts">-</p>
+                    <span class="card-change positive" id="statProductsSub">&nbsp;</span>
                 </div>
             </article>
             <article class="summary-card card-alerts">
                 <div class="card-icon"><i class="fas fa-bell"></i></div>
                 <div class="card-content">
                     <h2>Low Stock Alerts</h2>
-                    <p class="card-value">8</p>
-                    <span class="card-change negative">3 critical</span>
+                    <p class="card-value" id="statAlerts">-</p>
+                    <span class="card-change negative" id="statAlertsSub">&nbsp;</span>
                 </div>
             </article>
             <article class="summary-card card-sales">
                 <div class="card-icon"><i class="fas fa-money-bill-wave"></i></div>
                 <div class="card-content">
                     <h2>Today's Sales</h2>
-                    <p class="card-value">R4,560</p>
-                    <span class="card-change positive">+15% vs yesterday</span>
+                    <p class="card-value" id="statSales">-</p>
+                    <span class="card-change positive" id="statSalesSub">&nbsp;</span>
                 </div>
             </article>
         </div>
@@ -56,6 +68,23 @@ include __DIR__ . '/includes/header.php';
         <div class="chart-container">
             <h2>Stock by Category</h2>
             <div id="donutChart"></div>
+        </div>
+    </section>
+
+    <section class="chart-container" style="margin-bottom:var(--spacing-lg)" aria-label="Low stock items">
+        <div class="section-header">
+            <h2><i class="fas fa-exclamation-triangle" style="color:var(--danger)"></i> Low Stock Items</h2>
+            <a href="low-stock-alerts.php">View Alerts</a>
+        </div>
+        <div class="table-wrapper" style="box-shadow:none">
+            <table>
+                <thead>
+                    <tr><th>Product</th><th>Category</th><th>Store</th><th>Current Stock</th><th>Reorder Level</th><th>Status</th></tr>
+                </thead>
+                <tbody id="lowStockTableBody">
+                    <tr><td colspan="6" style="text-align:center;color:var(--text-secondary);padding:1.5rem">Loading...</td></tr>
+                </tbody>
+            </table>
         </div>
     </section>
 
@@ -81,8 +110,8 @@ include __DIR__ . '/includes/header.php';
                     <span style="font-size:0.85rem;color:var(--text-secondary);font-weight:600">Monthly Revenue</span>
                     <button id="refreshBtn" class="btn btn-sm btn-outline"><i class="fas fa-sync-alt"></i></button>
                 </div>
-                <p style="font-size:1.6rem;font-weight:700;color:var(--success)">R124,800</p>
-                <span style="font-size:0.75rem;color:var(--success)">+8.2% vs last month</span>
+                <p style="font-size:1.6rem;font-weight:700;color:var(--success)" id="monthlyRevenue">-</p>
+                <span style="font-size:0.75rem;color:var(--text-secondary)" id="monthlyRevenueSub">Current month</span>
             </div>
         </section>
     </div>

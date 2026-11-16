@@ -1,11 +1,21 @@
 <?php
 $user   = current_user() ?? ['name' => 'Guest', 'initials' => '??'];
+
+// Live low-stock alert count (pending) for the nav badge.
+$alertBadge = 0;
+try {
+    $alertBadge = (int)$pdo->query("SELECT COUNT(*) FROM LowStockAlert WHERE status = 'PENDING'")->fetchColumn();
+} catch (Exception $e) {
+    $alertBadge = 0;
+}
+
 $pages  = [
     ['href' => 'dashboard.php',        'icon' => 'fa-home',                'label' => 'Dashboard', 'id' => 'dashboard'],
     ['href' => 'stocks.php',           'icon' => 'fa-boxes',               'label' => 'Stocks',    'id' => 'stocks'],
     ['href' => 'products.php',         'icon' => 'fa-cube',                'label' => 'Products',  'id' => 'products'],
+    ['href' => 'sales.php',            'icon' => 'fa-cash-register',       'label' => 'Sales',     'id' => 'sales'],
     ['href' => 'sales-report.php',     'icon' => 'fa-chart-bar',           'label' => 'Reports',   'id' => 'sales-report'],
-    ['href' => 'low-stock-alerts.php', 'icon' => 'fa-exclamation-triangle','label' => 'Alerts',    'id' => 'alerts', 'badge' => 8],
+    ['href' => 'low-stock-alerts.php', 'icon' => 'fa-exclamation-triangle','label' => 'Alerts',    'id' => 'alerts', 'badge' => $alertBadge],
     ['href' => 'store-management.php', 'icon' => 'fa-store',               'label' => 'Stores',    'id' => 'stores'],
     ['href' => 'settings.php',         'icon' => 'fa-cog',                 'label' => 'Settings',  'id' => 'settings'],
 ];
@@ -38,6 +48,7 @@ $pages  = [
         </ul>
 
         <div class="nav-user">
+            <select id="navStoreSelect" class="nav-store-select" aria-label="Switch store" title="Switch store"></select>
             <div class="user-avatar" aria-hidden="true"><?= e($user['initials']) ?></div>
             <span class="user-name"><?= e($user['name']) ?></span>
             <a href="logout.php" class="logout-btn" aria-label="Logout">
@@ -53,4 +64,32 @@ document.getElementById('hamburger')?.addEventListener('click', function () {
     menu.classList.toggle('open');
     this.setAttribute('aria-expanded', String(!expanded));
 });
+
+// --- Global store switcher (persists across all pages) -------------------
+(function () {
+    const sel = document.getElementById('navStoreSelect');
+    if (!sel) return;
+    const KEY = 'bisos_selected_store';
+
+    fetch('api/sales.php?action=stores')
+        .then(r => r.json())
+        .then(json => {
+            const stores = json.data || [];
+            sel.innerHTML = '<option value="">All Stores</option>' +
+                stores.map(s => `<option value="${s.store_id}">${s.name}</option>`).join('');
+            const saved = localStorage.getItem(KEY);
+            if (saved) sel.value = saved;
+        })
+        .catch(() => {});
+
+    sel.addEventListener('change', function () {
+        if (this.value) {
+            localStorage.setItem(KEY, this.value);
+        } else {
+            localStorage.removeItem(KEY);
+        }
+        // Reload so every page picks up the new store context.
+        window.location.reload();
+    });
+})();
 </script>

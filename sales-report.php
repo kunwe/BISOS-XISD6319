@@ -5,6 +5,8 @@ require_login();
 $pageTitle  = 'Sales Report';
 $activePage = 'sales-report';
 $pageScript = 'js/sales-report.js';
+$monthStart = date('Y-m-01');
+$monthEnd   = date('Y-m-t');
 $inlineStyle = '
     .report-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:var(--spacing-md); margin-bottom:var(--spacing-lg); }
     .report-card { background:var(--card-bg); padding:var(--spacing-md); border-radius:var(--border-radius); box-shadow:var(--shadow); text-align:center; }
@@ -28,7 +30,7 @@ include __DIR__ . '/includes/header.php';
     <div class="page-header">
         <div>
             <h1>Sales Report</h1>
-            <p>March 2026 &mdash; Soweto Branch</p>
+            <p><span id="reportPeriod">Current period</span> &mdash; <span id="reportStore">All Stores</span></p>
         </div>
         <div class="header-actions">
             <button class="btn btn-danger" id="exportPDF"><i class="fas fa-file-pdf"></i> Export PDF</button>
@@ -48,14 +50,11 @@ include __DIR__ . '/includes/header.php';
     <div class="card" style="margin-bottom:var(--spacing-lg)">
         <div class="filter-bar">
             <label for="dateFrom" style="font-size:0.875rem;font-weight:600">From:</label>
-            <input type="date" id="dateFrom" value="2026-03-01">
+            <input type="date" id="dateFrom" value="<?= e($monthStart) ?>">
             <label for="dateTo" style="font-size:0.875rem;font-weight:600">To:</label>
-            <input type="date" id="dateTo" value="2026-03-31">
+            <input type="date" id="dateTo" value="<?= e($monthEnd) ?>">
             <select id="storeFilter">
                 <option value="">All Stores</option>
-                <option value="Soweto">Soweto Branch</option>
-                <option value="Sandton">Sandton Branch</option>
-                <option value="Pretoria">Pretoria Branch</option>
             </select>
             <select id="paymentFilter">
                 <option value="">All Payment Methods</option>

@@ -20,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Set session
         $_SESSION['user'] = [
             'id'       => $user['user_id'],
+            'user_id'  => $user['user_id'],
+            'store_id' => $user['store_id'],
             'email'    => $user['email'],
             'name'     => $user['first_name'] . ' ' . $user['last_name'],
             'initials' => strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1)),

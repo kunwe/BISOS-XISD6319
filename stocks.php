@@ -12,7 +12,7 @@ include __DIR__ . '/includes/header.php';
     <div class="page-header">
         <div>
             <h1>Stock Management</h1>
-            <p>Store: Soweto Branch &mdash; Last updated: <span id="lastUpdated">Just now</span></p>
+            <p>Store: <span id="storeName">All Stores</span> &mdash; Last updated: <span id="lastUpdated">Just now</span></p>
         </div>
         <div class="header-actions">
             <button class="btn btn-primary" id="addStockBtn"><i class="fas fa-plus"></i> Add New Stock</button>
@@ -29,19 +29,17 @@ include __DIR__ . '/includes/header.php';
                 <input type="search" id="searchInput" placeholder="Search products...">
             </div>
             <div class="table-actions">
+                <select id="storeFilter">
+                    <option value="">All Stores</option>
+                </select>
                 <select id="categoryFilter">
                     <option value="">All Categories</option>
-                    <option value="Dairy">Dairy</option>
-                    <option value="Bakery">Bakery</option>
-                    <option value="Pantry">Pantry</option>
-                    <option value="Meat">Meat</option>
-                    <option value="Grains">Grains</option>
-                    <option value="Canned Goods">Canned Goods</option>
                 </select>
                 <select id="statusFilter">
                     <option value="">All Status</option>
-                    <option value="low">Low Stock</option>
-                    <option value="ok">OK</option>
+                    <option value="LOW">Low Stock</option>
+                    <option value="OK">OK</option>
+                    <option value="OUT">Out of Stock</option>
                 </select>
             </div>
         </div>
@@ -59,15 +57,12 @@ include __DIR__ . '/includes/header.php';
                 </tr>
             </thead>
             <tbody id="stockTableBody">
-                <tr><td colspan="7" style="text-align:center;padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+                <tr><td colspan="7" style="text-align:center;padding:2rem"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
             </tbody>
         </table>
 
         <div class="pagination">
-            <span id="paginationInfo">Showing 1–10 of 10 items</span>
-            <div class="pagination-controls">
-                <button class="page-btn active">1</button>
-            </div>
+            <span id="paginationInfo">Showing 0 items</span>
         </div>
     </div>
 </main>
@@ -75,38 +70,32 @@ include __DIR__ . '/includes/header.php';
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
         <div class="modal-header">
-            <h2 id="modalTitle">Add New Stock Item</h2>
+            <h2 id="modalTitle">Add New Stock</h2>
             <button class="modal-close" id="modalClose">&times;</button>
         </div>
         <form id="stockForm">
             <div class="form-grid">
                 <div class="form-group full">
-                    <label for="fieldName">Product Name *</label>
-                    <input type="text" id="fieldName" required>
+                    <label for="fieldProduct">Product *</label>
+                    <select id="fieldProduct" required>
+                        <option value="">Select product</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="fieldCategory">Category *</label>
-                    <select id="fieldCategory" required>
-                        <option value="">Select category</option>
-                        <option value="Dairy">Dairy</option>
-                        <option value="Bakery">Bakery</option>
-                        <option value="Pantry">Pantry</option>
-                        <option value="Meat">Meat</option>
-                        <option value="Grains">Grains</option>
-                        <option value="Canned Goods">Canned Goods</option>
-                    </select>
+                    <label for="fieldQuantity">Quantity *</label>
+                    <input type="number" id="fieldQuantity" min="0" value="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="fieldReorderLevel">Reorder Level *</label>
+                    <input type="number" id="fieldReorderLevel" min="0" value="0" required>
                 </div>
                 <div class="form-group">
                     <label for="fieldLocation">Location Code</label>
                     <input type="text" id="fieldLocation">
                 </div>
                 <div class="form-group">
-                    <label for="fieldQuantity">Current Quantity *</label>
-                    <input type="number" id="fieldQuantity" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="fieldReorderLevel">Reorder Level *</label>
-                    <input type="number" id="fieldReorderLevel" min="0" required>
+                    <label for="fieldMax">Max Level</label>
+                    <input type="number" id="fieldMax" min="0" value="999">
                 </div>
             </div>
             <div class="modal-footer">

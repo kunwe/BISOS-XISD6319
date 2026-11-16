@@ -31,6 +31,11 @@ include __DIR__ . '/includes/header.php';
             <h1><span class="alert-icon">⚠️</span> Low Stock Alerts</h1>
             <p>Monitor and manage inventory alerts across all stores</p>
         </div>
+        <div class="header-actions">
+            <select id="storeFilter" aria-label="Select store">
+                <option value="">All Stores</option>
+            </select>
+        </div>
     </div>
 
     <div class="alerts-kpi">

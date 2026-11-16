@@ -1,4 +1,4 @@
-import { showToast } from './app.js';
+import { showToast } from './app.js?v=2';
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.toggle-password').forEach(btn => {

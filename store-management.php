@@ -2,9 +2,10 @@
 require_once __DIR__ . '/config/config.php';
 require_login();
 
-$pageTitle  = 'Store Management';
-$activePage = 'stores';
-$extraCss   = ['css/stocks.css'];
+$pageTitle   = 'Store Management';
+$activePage  = 'stores';
+$extraCss    = ['css/stocks.css'];
+$pageScript  = 'js/stores.js';
 $inlineStyle = '
     .stores-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:var(--spacing-lg); margin-bottom:var(--spacing-lg); }
     .store-card { background:var(--card-bg); border-radius:var(--border-radius); box-shadow:var(--shadow); overflow:hidden; transition:transform 0.3s,box-shadow 0.3s; }
@@ -33,72 +34,53 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 
-    <div class="stores-grid">
-        <article class="store-card">
-            <div class="store-card-header">
-                <h2><i class="fas fa-store"></i> Soweto Branch</h2>
-                <span class="status-badge status-ok" style="background:rgba(255,255,255,0.2);color:white">Active</span>
-            </div>
-            <div class="store-card-body">
-                <div class="store-info-row"><i class="fas fa-map-marker-alt"></i><span>123 Soweto Street, Johannesburg, 1804</span></div>
-                <div class="store-info-row"><i class="fas fa-phone"></i><span>011-123-4567</span></div>
-                <div class="store-info-row"><i class="fas fa-envelope"></i><span>soweto@bisos.co.za</span></div>
-                <div class="store-info-row"><i class="fas fa-user-tie"></i><span>Manager: John Molefe</span></div>
-                <div class="store-stats">
-                    <div class="store-stat"><p class="stat-value">412</p><p class="stat-label">Products</p></div>
-                    <div class="store-stat"><p class="stat-value" style="color:var(--danger)">8</p><p class="stat-label">Alerts</p></div>
-                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">R4,560</p><p class="stat-label">Today</p></div>
-                </div>
-            </div>
-            <div class="store-card-footer">
-                <a href="stocks.php" class="btn btn-sm btn-primary"><i class="fas fa-boxes"></i> View Stock</a>
-                <button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
-            </div>
-        </article>
-
-        <article class="store-card">
-            <div class="store-card-header" style="background:var(--success)">
-                <h2><i class="fas fa-store"></i> Sandton Branch</h2>
-                <span class="status-badge" style="background:rgba(255,255,255,0.2);color:white">Active</span>
-            </div>
-            <div class="store-card-body">
-                <div class="store-info-row"><i class="fas fa-map-marker-alt"></i><span>456 Sandton Drive, Sandton, 2196</span></div>
-                <div class="store-info-row"><i class="fas fa-phone"></i><span>011-234-5678</span></div>
-                <div class="store-info-row"><i class="fas fa-envelope"></i><span>sandton@bisos.co.za</span></div>
-                <div class="store-info-row"><i class="fas fa-user-tie"></i><span>Manager: Sarah Dlamini</span></div>
-                <div class="store-stats">
-                    <div class="store-stat"><p class="stat-value">389</p><p class="stat-label">Products</p></div>
-                    <div class="store-stat"><p class="stat-value" style="color:var(--warning)">3</p><p class="stat-label">Alerts</p></div>
-                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">R6,120</p><p class="stat-label">Today</p></div>
-                </div>
-            </div>
-            <div class="store-card-footer">
-                <a href="stocks.php" class="btn btn-sm btn-primary"><i class="fas fa-boxes"></i> View Stock</a>
-                <button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
-            </div>
-        </article>
-
-        <article class="store-card">
-            <div class="store-card-header" style="background:var(--warning)">
-                <h2><i class="fas fa-store"></i> Pretoria Branch</h2>
-                <span class="status-badge" style="background:rgba(255,255,255,0.2);color:white">Active</span>
-            </div>
-            <div class="store-card-body">
-                <div class="store-info-row"><i class="fas fa-map-marker-alt"></i><span>789 Church Street, Pretoria, 0002</span></div>
-                <div class="store-info-row"><i class="fas fa-phone"></i><span>012-345-6789</span></div>
-                <div class="store-info-row"><i class="fas fa-envelope"></i><span>pretoria@bisos.co.za</span></div>
-                <div class="store-info-row"><i class="fas fa-user-tie"></i><span>Manager: David Nkosi</span></div>
-                <div class="store-stats">
-                    <div class="store-stat"><p class="stat-value">446</p><p class="stat-label">Products</p></div>
-                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">0</p><p class="stat-label">Alerts</p></div>
-                    <div class="store-stat"><p class="stat-value" style="color:var(--success)">R3,890</p><p class="stat-label">Today</p></div>
-                </div>
-            </div>
-            <div class="store-card-footer">
-                <a href="stocks.php" class="btn btn-sm btn-primary"><i class="fas fa-boxes"></i> View Stock</a>
-                <button class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
-            </div>
-        </article>
+    <div class="stores-grid" id="storesGrid">
+        <p style="color:var(--text-secondary)"><i class="fas fa-spinner fa-spin"></i> Loading stores...</p>
     </div>
 </main>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modalTitle">Add Store</h2>
+            <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+        <form id="storeForm">
+            <input type="hidden" id="fieldStoreId">
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label for="fieldName">Store Name *</label>
+                    <input type="text" id="fieldName" required>
+                </div>
+                <div class="form-group full">
+                    <label for="fieldAddress">Address</label>
+                    <input type="text" id="fieldAddress">
+                </div>
+                <div class="form-group">
+                    <label for="fieldPhone">Phone</label>
+                    <input type="text" id="fieldPhone">
+                </div>
+                <div class="form-group">
+                    <label for="fieldEmail">Email</label>
+                    <input type="email" id="fieldEmail">
+                </div>
+                <div class="form-group full">
+                    <label for="fieldManager">Manager Name</label>
+                    <input type="text" id="fieldManager">
+                </div>
+                <div class="form-group full">
+                    <label for="fieldActive">Status</label>
+                    <select id="fieldActive">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="modalCancel">Cancel</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>
 <?php include __DIR__ . '/includes/footer.php'; ?>

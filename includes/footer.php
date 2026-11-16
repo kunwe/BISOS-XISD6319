@@ -12,7 +12,7 @@
         </div>
     </footer>
     <?php if (!empty($pageScript)): ?>
-        <script type="module" src="<?= e($pageScript) ?>"></script>
+        <script type="module" src="<?= e($pageScript) ?>?v=<?= @filemtime(__DIR__ . '/../' . $pageScript) ?: time() ?>"></script>
     <?php endif; ?>
 </body>
 </html>
